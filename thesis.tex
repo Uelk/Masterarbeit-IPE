@@ -1,0 +1,113 @@
+\expandafter\def\csname ver@l3sort.sty\endcsname{} %bugfix for l3sort 17.02.17 Wachter
+
+\input{config}                  % Please have a look at this file and configure the template according to your needs
+
+\input{Template/ibtThesis}      % This file defines our template based on the memoir class. Normally, you shouldn't need to change anything. If you want to make adjustments or are wondering about a particular behavior, this might be the first place to look at, though.
+\input{Template/settings}       % Have a look at this file regarding convenience commands and settings you might want to change.
+
+\include{Parts/03abbreviations}			% Here you can define your abbreviations
+
+\begin{document}
+\pagestyle{fancy}
+
+\ifthesisIsDiss  %Title
+  \input{Parts/titleDiss}
+  \input{License/license}
+  \thispagestyle{empty}
+\else
+  \include{Parts/00title}
+\fi
+\frontmatter
+
+\rmfamily
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+
+
+\include{Parts/01abstract}
+\clearemptydoublepage
+
+
+\include{Parts/02acknowledgments}
+\clearemptydoublepage
+\tableofcontents*
+\clearemptydoublepage
+
+\chapter*{Abbreviations}
+\thispagestyle{empty}
+\addcontentsline{toc}{chapter}{Abbreviations}
+\markboth{Abbreviations}{Abbreviations}
+\printacronyms[heading=none]
+\clearemptydoublepage
+
+\chapterstyle{madsen}
+\ifafive  % right margin too small to have chapter numbers there
+  \renewcommand*{\printchapternum}{%
+    \hspace{0.4em}%
+      \resizebox{!}{4ex}{%
+        \chapnamefont\bfseries\sffamily\thechapter}%
+  }%
+\fi
+
+\mainmatter
+\input{Parts/04intro}
+\clearemptydoublepage
+
+
+\input{Parts/05medicalFundamentals}
+\clearemptydoublepage
+\input{Parts/06mathematicalFundamentals}
+\clearemptydoublepage
+
+
+\input{Parts/07Methods}
+\clearemptydoublepage
+
+
+\input{Parts/08results}
+\clearemptydoublepage
+
+
+\input{Parts/09discussion}
+
+
+\input{Parts/10conclusion}
+\clearemptydoublepage
+
+
+\input{Parts/11outlook}
+\clearemptydoublepage
+
+\begin{appendix}
+% uncomment the following line if you want to hide Appendix sections from TOC
+%\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+\input{Parts/12appendix}
+\end{appendix}
+
+\clearemptydoublepage
+\backmatter
+\chapterstyle{default}
+\input{Parts/Symbolverzeichnis}
+%\addtocontents{toc}{Symbolverzeichnis}
+\clearemptydoublepage
+\iflists
+  \listoffigures
+  \clearemptydoublepage
+  \listoftables
+  \clearemptydoublepage
+\fi
+
+% References
+{
+ \ifafive
+  \footnotesize
+  \setlength{\bibsep}{1pt}
+ \else
+  \small
+  \setlength{\bibsep}{2pt}
+ \fi
+ \bibliography{reduced} % or refbase
+ \clearemptydoublepage
+}
+
+\end{document}
+

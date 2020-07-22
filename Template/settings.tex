@@ -1,0 +1,33 @@
+\setsecnumdepth{subsubsection}    % indenture levels included in the table of contents
+
+% Some convenience commands
+\newcommand{\vect}[3]{\begin{pmatrix}#1 \\ #2 \\ #3\end{pmatrix}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert_2}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\renewcommand{\div}{\mathrm{div~}}
+\newcommand{\Eq}[1]{Equation~(\ref{#1})}
+\newcommand{\Fig}{Figure~\ref}
+\newcommand{\Tab}{Table~\ref}
+\newcommand{\Sec}{Section~\ref}
+\newcommand{\Chap}{Chapter~\ref}
+\newcommand{\Alg}{Algorithm~\ref}
+\newcommand{\eg}{e.g.\ }
+\newcommand{\ie}{i.e.\ }
+\newcommand{\Gl}[1]{Gl.~(\ref{#1})}
+\newcommand{\Abb}{Abb.~\ref}
+\newcommand{\Tabelle}{Tab.~\ref}
+\newcommand{\Abschn}{Abschn.~\ref}
+\newcommand{\Kapitel}{Kap.~\ref}
+\newcommand{\Algo}{Algorithmus~\ref}
+\newcommand{\zB}{z.B.\ }    % if you use a simple space instead of "\ ", it will be widened as LaTeX assumes a sentence ends after the full stop
+\newcommand{\dahe}{d.h.\ }
+\newcommand\si[2]{$#1~\mathrm{#2}$}
+\newcommand{\vs}{vs.\ }
+\newcommand{\etal}{et al.\ }
+\newcommand{\etc}{etc.\ }
+
+\renewcommand{\labelitemi}{$\circ$} % open circle as bullet points
+
+\ifthesisIsDiss
+	\preto\chapter\acresetall % expand acronyms once in each chapter
+\fi

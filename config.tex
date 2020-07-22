@@ -1,0 +1,41 @@
+%%% Language of thesis
+\newif\ifenglish
+\englishtrue         % define if thesis is in English
+%\englishfalse           % define if thesis is in German
+
+%%% Citation style
+\newif\ifapa
+%\apatrue             % define if APA style references are desired (Courtemanche et al., 2013)
+\apafalse             % define if IEEE style references are desired
+
+%%% List of figures and tables
+\newif\iflists
+%\liststrue            % define if you want to include a list of figures and a lists of tables
+\listsfalse              % define if you do not want the lists to appear
+
+%%% PhD Thesis or Student Thesis
+\newif\ifthesisIsDiss
+%\thesisIsDisstrue      % define for PhD Thesis
+\thesisIsDissfalse      % define for Student Thesis
+
+\ifthesisIsDiss
+  %%% PhD Thesis for preparation or book print
+  \newif\ifdissForPrint
+    \dissForPrinttrue    % define Print Process at KIT Scientific Publishing (only affects title page)
+    %\dissForPrintfalse      % define for regular printout given to Prof. Dössel and your co-referee
+\fi
+
+%%% Paper format
+\newif\ifafive
+%\afivetrue % A5
+\afivefalse % A4
+
+%%% License necessary for the publication at KITopen.
+\newif\iflicense
+\licensetrue   % enable license
+%\licensefalse %     no license
+
+\newif\ifsharealike 
+	%\sharealiketrue %   Creative Commons Attribution – Share Alike 4.0 International License
+	\sharealikefalse % Creative Commons Attribution – Non Commercial- No Derivs 4.0 International License
+	
