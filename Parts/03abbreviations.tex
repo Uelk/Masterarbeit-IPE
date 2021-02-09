@@ -1,16 +1,11 @@
-%!TEX root = ./thesis.tex
-% For details, see https://www.ctan.org/pkg/acro
-
-
-
-%======== ADJUST SPACING BETWEEN ACRONYM AND FULL NAME HERE ===============================
 % The following part adjusts the appearance of the printed list of abbreviations
 % Based on: http://tex.stackexchange.com/questions/253338/abbreviation-list-align-left-with-space-between
 % Generate your list so every thing is in line
 \usepackage{enumitem}
 \newlength\myitemwidth
-
 \setlength\myitemwidth{9em} 						% <<< choose what you need here
+
+
 \newlist{myacronymlist}{description}{1}
 \setlist[myacronymlist]{
   labelindent = 0pt ,
@@ -20,13 +15,14 @@
   itemindent  = 0pt ,
   format      = \bfseries
 }
-% Tell acro to use that list					% Bugfix sp952 (23.01.2019)
+
+
 \DeclareAcroListStyle{myliststyle}{list}{
   list = myacronymlist
 }
-\acsetup{ list-style = myliststyle } 			% Bugfix sp952 (23.01.2019)
-%\acsetup{ list-type = myacronymlist } % comment for Bugfix l3sort 17.02.17 Wachter 
-%=========================================================================================
+\acsetup{ list-style = myliststyle } 
+
+
 
 
 %======== ENTER YOUR ABBREVIATIONS HERE ===============================
@@ -62,3 +58,4 @@
 
 \DeclareAcronym{tof}		{short={TOF},	long={Time Of Flight}}
 \DeclareAcronym{sos}		{short={SOS},	long={Speed Of Sound}}
+\DeclareAcronym{gpu}        {short={GPU},	long={Graphic Processing Unit}}
