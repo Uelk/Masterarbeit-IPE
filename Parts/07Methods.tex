@@ -2,24 +2,72 @@
 \chapter{Methods}
 \label{chap:methods}
 
-In Section \ref{sec:SAFT} the \ac{saft} is explained. Each voxel was assigned a value $V_k$ which was independent of the angle between the voxel and the emitter and receiver. During this process practically every directional information of the data is lost. 
-To prevent this loss of information each \ac{ascan} has to be assigned a certain direction during the reconstruction.
-For that the measurement volume and consequently each voxel has to be segmented. The multitude of directions is represented by a set of direction vectors. In principle the volume can be segmented into an arbitrary set of directions with a very high density of direction vectors. Since the amount of data that has to be processed increases with each additional direction vector the volume has to be divided in a sensible manner.
+\section{Extension of SAFT Algorithm}
+\label{chap:SAFT_Augment}
+One of the main objectives of this thesis is the introduction of a fourth imaging modality for the reconstruction algorithm of 3D-\ac{usct}-Images. This modality can further increase the resolution of the image as well as to lead to a classification of different tissue types by analysing the scattering characteristics of each tissue sample. As it was mentioned in the motivation in Section \ref{chap:motivation} the three dimensional volume of the image is extended by two additional dimensions to preserve the directional information of the data. The idea shall be explained by an example with Rubik's cubes:
+The typical 3D reconstructed image shall be represented by a Rubik's cube as seen in Figure \ref{3D_rubics}:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.2\textwidth]{Graphics/rubicscube.png}
+    \caption{Representation of the three dimensional reconstruction image without directional information as a Rubik's cube.}
+    \label{3D_rubics}
+\end{figure}
+
+The image has three dimensions with the corresponding voxels represented by the blocks of the Rubik's cube. Each block has a voxel value $V_k$ which results from the superposition of each \ac{ascan}-sample from the \ac{saft}. This is the standard case where no directional information is available. It is unknown where the emitter for the resulting voxel value were as well as the receiving transducer can not be named. The colouring of the Rubik's cube does not matter in this example.
+
+The introduction of the 4th dimension helps with the preservation of directional information. Basically, the three dimensional volume of the image is split into as many parts as there are direction vectors. Direction vectors basically are a discretised form of the direction information around each voxel which helps to quantify the direction from where the signal comes from or goes to. The example for four direction vectors can be seen in Figure \ref{4D_rubics}:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Graphics/rubicscube4D.png}
+    \caption{The four dimensional image for a total of four direction vectors. For each direction discretisation an additional three dimensional volume is created, hence the four Rubik's cubes.}
+    \label{4D_rubics}
+\end{figure}
+
+To know which \ac{ascan} belongs to which voxel in which of the four cubes it is important to look at the  configuration of emitters and receivers in the measurement volume:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Graphics/problem_4D.png}
+    \caption{Example of imaging aperture with four receivers and two emitters.}
+    \label{4D_problem}
+\end{figure}
+
+In Figure \ref{4D_problem} a simple example for four receivers and two emitters is given. The green square in the aperture represents an arbitrary part of a tissue sample which shall be examined. What direction information is stored in each dimension of the four Rubik's cubes depends on what configuration is of interest. One possibility here would be to find out which receiver detected the signal of the green voxel in the middle of the aperture. Each \ac{ascan} belongs to a certain emitter-receiver-configuration. With that information one can find the vector from the voxel to the receiver position and assign it to one of the direction vectors. In this example the emitter $e_1$ might be the emitting transducer and receiver $r_2$ is the receiver. This results in an \ac{ascan} which can be processed with the \ac{saft} as was shown in section \ref{sec:SAFT}. The resulting voxel value of the \ac{saft} would be assigned to the 2nd Rubik's cube in Figure \ref{4D_rubics} for this example. If this procedure is repeated for every \ac{ascan} there should be four Rubik's cubes with all voxel values at the voxels coordinates that belong to the corresponding direction index. From these Cubes it is possible to make an assertion about a prevailing scattering direction of the tissue but the information of what emitter belongs to which voxel value is lost. The summation of all Rubik's cubes along this new 4th dimension would lead back to the three dimensional \ac{saft}-image that has no directional information. 
+
+In theory this approach also could be used to analyse the emitter configuration which would lead to Rubik's cubes that are assigned to the emitter direction but not to the information of the receivers. This is where the 5th dimension comes into play. To keep both information about the emitter as well as the receiver the image has to be extended into a further dimension. For this, the four Rubik's cubes that represent the fourth dimension are repeated into the 5th dimension as many times as there are direction vectors. An example of this is shown in the following Figure:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Graphics/rubicscube5D.png}
+    \caption{The five dimensional example of Rubik's cubes. This time for each direction discretisation not only one Rubik's cube is created but each time the four dimensional set of Rubik's cubes. Again for four direction vectors this lead to $4\cdot 4=16$ total Rubik's cubes.
+    }
+    \label{5D_rubics}
+\end{figure}
+
+In the case of four direction vectors the resulting five dimensional volume consists of 16 Rubik's cubes each containing the information of in what direction the emitter lays as well as in what direction the receiving transducer was. For the example in Figure \ref{4D_problem} one possible configuration could be that emitter $e_2$ sends an ultrasound wave into the aperture. This pulse scatters at the location of the green voxel and is reflected into receiver $r_1$. The voxel value $V_k$ for this configuration would be assigned to the Rubik's cube at the coordinates $(1,2)$ in Figure \ref{5D_rubics} and would be entered at the corresponding voxel position of that particular Rubik's cube.
+
+With this method an arbitrary resolution of the direction discretisation can be handled. From this 5D volume the reflection characteristics of different tissue types can be plotted and compared. The downside of this partitioning of the \acp{ascan} into many sub-volumes is the loss of contrast in the individual image. Each Rubik's cube contains a part of the initial \ac{saft}-image. Since the number \acp{ascan} stays the same each new volume receives only a fraction of the previous \acp{ascan}. The overall contrast therefore is distributed between the different Rubik's cubes and therefore lower for one cube alone. An further disadvantage of the additional dimension is the exponential growth of the data that has to be processed. A typical 3D Volume of 250x250x250 voxels contains $15,6x10^6$ elements. Each element has an voxel value that is stored as a double value of 8 byte. For the 3D-volume alone 119 MB of data have to be stored. The 5D approach increases this amount of data to 23,37 GB for only 14 direction vectors.   
 
 
-\section{Segmentation of the measurement volume}
+
+\section{Discretisation of directional information}
 \label{chap:segmentation}
 
 
-The first step of the preservation of directional information during the reconstruction is the generation of a suitable set of direction vectors which divide the measurement volume as evenly as possible. Theoretically, the direction vectors do not have to be distributed equally. If a certain direction requires a higher resolution of the segmentation it would be no problem to either add more vectors to that particular direction or shift some existing vectors from a less relevant direction to that required direction. In the following it was aspired to distribute the vectors as evenly as possible since no information about the relevance of one certain direction over another are available during this thesis.
-In Section \ref{chap:platonicsolids} platonic solids are used to generate a set of either 12 or 20 vectors which are equally distributed. The limitation of the amount of vectors which arises with the usage of platonic solids is tackled by the method in Section \ref{chap:arbitrarySegment}.
+The first step of the preservation of directional information during the reconstruction is the generation of a suitable set of direction vectors which divide each voxel volume as evenly as possible. The direction information for each voxel shall be discretised. The direction vectors are then placed into the centre of each voxel facing outwards. During the reconstruction for every direction vector an individual volume is created. This is exemplary explained in section \ref{chap:SAFT_Augment}. Theoretically, the direction vectors do not have to be distributed equally. If a certain direction requires a higher resolution of the segmentation it would be no problem to either add more vectors to that particular direction or shift some existing vectors from a less relevant direction to that required direction. In the following it was aspired to distribute the vectors as evenly as possible since no information about the relevance of one certain direction over another are available during the time of writing.
+Section \ref{chap:platonicsolids} explains how the properties of platonic solids can be used to generate a set of either 12 or 20 uniformly distributed vectors. The limitation of the amount of vectors which arises with the usage of platonic solids is tackled by the method of arbitrary segmentation in section \ref{chap:arbitrarySegment}.
+
+
+
+
 
 
 
 \subsection{Platonic solids}
 \label{chap:platonicsolids}
 
-Since the goal of the segmentation is to divide the measurement volume of each voxel as evenly as possible the intermediate angle between two neighbouring segmentation vectors should be equal.Platonic solids are one possibility to get a set of vectors which fulfil this requirement.
+Since the goal of the segmentation is to divide the measurement volume of each voxel as evenly as possible the intermediate angle between two neighbouring segmentation vectors should be equal. Platonic solids are one possibility to get a set of vectors which fulfil this requirement.
 \begin{figure}[H]
      \centering
      \begin{subfigure}[b]{0.19\textwidth}
@@ -66,7 +114,7 @@ From these five platonic solids the dodecahedron as well as the icosahedron are 
 
 \bigskip
 
-Figure \ref{fig:Dodecahedron_MATLAB} shows the implementation of the dodecahedron in MATLAB. Each face normal as well as the corresponding index is plotted in the centre of each face. Figure \ref{fig:Icosahedron_MATLAB} shows the icosahedron.
+Figure \ref{fig:Dodecahedron_MATLAB} shows the implementation of the dodecahedron in MATLAB. Each face normal as well as the corresponding index is plotted in the centre of each face.
 
 \begin{figure}[H]
      \centering
@@ -88,112 +136,188 @@ Figure \ref{fig:Dodecahedron_MATLAB} shows the implementation of the dodecahedro
 \end{figure}
 
 
-\subsection{Arbitrary Segmentation}
+\subsection{Arbitrary Direction Segmentation}
 \label{chap:arbitrarySegment}
 
+The reflection characteristic of a medium depends on the angle under which an incoming ultrasound wave is scattered and reflected. To distinguish between very narrow angles for specular reflections and the broader angles in the diffuse case the directional information has to be given in a high enough resolution. If the resolution of the platonic solids is not sufficient to distinguish between specular and diffuse reflectivity there has to be a way to increase it arbitrarily.
+This is why one fundamental part of this thesis was the augmentation of the method for the generation of suitable direction vectors to discretise the direction information arbitrarily in contrast to the fixed number of normals that were yielded by the platonic geometries. To be able to increase the density of the segmentation vectors it was mentioned that it is necessary to create an arbitrary amount of them. The challenging part is the alignment of the direction vectors so that every neighbouring vector has more or less the same angle to its other neighbours.
+The problem of generating a set of uniformly distributed vectors is known as the Thomson Problem \cite{Thomson1904Structure}. It was formulated as the problem of the minimisation of the electro-static potential energy of $N$ equally charged particles located on the surface of a unit sphere. The particles were all equally charged and therefore repel each other following Coulomb's Law. The equation for the Coulomb potential is shown in Equation \ref{Coulombslaw} for two charged particles $i$ and $j$:
+\begin{equation}
+\Phi(r_{i,j}) = \underset{=k_e}{\underbrace{\frac{1}{4\pi\varepsilon_0}}} \frac{q_i \, q_j}{r^2} =  k_e \frac{q_i \, q_j}{{|r_{i,j}|}^2} 
+\label{Coulombslaw}
+\end{equation}
+With $|r_{i,j}|$ being the euclidean distance between two charged particles with the charges $q_i$ and $q_j$. $k_e$ is the electrostatic constant. Assuming that both particles are equally charged ($q_i = q_j = 1$) the equation for the electrostatic potential energy can be simplified:
+\begin{equation}
+\Phi(r_{i,j}) = \frac{k_e}{{|r_{i,j}|}^2} 
+\label{Coulombslaw_simple}
+\end{equation}
 
-\subsection{Gradnetz}
-
-
-
-
-\section{Identification of faces}
-For the analysis of the direction-dependent reflection characteristics each \ac{ascan} has to be assigned to a certain direction of the voxel.
-Depending on which geometry was chosen for the segmentation of the volume there is a set of normals which are orthogonal to each face of the geometry. To assign a face to each \ac{ascan} it makes sense to calculate the angle $\angle (\overrightarrow{a},\overrightarrow{b})$ between the direction vector and each normal.
-
+The combination of a set of $N$ charged particles results in the following potential:
 
 \begin{equation}
-\centering
-\angle (\overrightarrow{a},\overrightarrow{b}) = \varphi
-\label{eqation_angle}
+\Phi(r_{i,j}) = k_e \sum_{i = 1}^{N}\sum_{i \neq j}^{}\frac{1}{{|r_{i}-r_{j}|}^2} 
+\label{Coulombslaw_simple_set_n}
 \end{equation}
 
 
-\begin{equation}
-\centering
-cos(\varphi )  =   \frac{(\overrightarrow{a} \cdot \overrightarrow{b})}{\left \| \overrightarrow{a} \right \|_2  \cdot \left \| \overrightarrow{b} \right \|_2}
-\label{eqation_cos_phi}
-\end{equation}
+The optimisation problem can be expressed as a penalty function with the so called Reisz s-energy $\varepsilon_s (r_{i,j})$ as seen in Equation \ref{riesz_energy}. The goal is the minimisation of the Reisz s-energy by the means of maximising of the distance between the particles \cite{ETAYOMINIMIZINGSPHERES}:
 
 \begin{equation}
-\angle (\overrightarrow{a},\overrightarrow{b}) = 
-cos^{-1} \left (  
-\frac{(\overrightarrow{a} \cdot \overrightarrow{b})}{\left \| \overrightarrow{a} \right \|_2  \cdot \left \| \overrightarrow{b} \right \|_2} 
-\right )
-\label{eqation_angle_final}
+min\, \varepsilon_s (r_{i,j}) = min\, \sum_{i = 1}^{N}\sum_{i \neq j}^{}\frac{1}{{|r_{i}-r_{j}|}^s}
+\label{riesz_energy}
 \end{equation}
 
-To identify the face which belongs to the corresponding \ac{ascan} the smallest angle of the set has to be found.
+In Equation \ref{riesz_energy} $s$ is the the Reisz s-energy parameter which defines the penalisation of the smallest distance between two points. This means that with higher $s$ the optimisation algorithm will try to the maximise the overall distance between the points to reach a better solution compared to lower $s$ values. This comes with the downside of increased computational expense. Furthermore, $k_e$ can be neglected since it is constant and does not have an influence on the solution of the optimisation problem. The actual solution for this optimisation problem can be found by applying numerical approaches like the line search algorithm.
 
-\qquad
+\medskip
+
+For the calculation of the final point configuration the implementation from \cite{AntonSemechkoSuiteSphere} was used. The result is an approximately uniform triangular configuration of points on a sphere by using the aforementioned procedure to minimise the electrostatic potential energy of a set of $N$ electrically charged particles. The algorithm itself does not make use of a line search algorithm. Instead it distributes the particles in a random manner and uses thresholds to decide if a new configuration yields a better solution of the optimisation problem than the one before. Then new constraints are defined and the particles are again distributed randomly until they fall below a threshold again. This is repeated until a certain quality of the optimisation is satisfied. Figure \ref{fig:arbitrary_example} shows four examples for the resulting set of $N$ equally distributed points on the sphere.
+
+\begin{figure}[H]
+     \centering
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+        \includegraphics[width=1.2\linewidth]{arbitrary_nomals14.eps}
+         %\caption{Configuration for $N = 14$ points.}
+         \label{fig:arbitary_n14}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+         \includegraphics[width=1.2\textwidth]{Graphics/arbitrary_nomals30.eps}
+         %\caption{Configuration for $N = 30$ points.}
+         \label{fig:arbitary_n30}
+     \end{subfigure}
+         \hfill
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+         \includegraphics[width=1.2\textwidth]{Graphics/arbitrary_nomals90.eps}
+         %\caption{Configuration for $N = 90$ points.}
+         \label{fig:arbitary_n90}
+     \end{subfigure}
+         \hfill
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+         \includegraphics[width=1.2\textwidth]{Graphics/arbitrary_nomals200.eps}
+         %\caption{Configuration for $N = 200$ points.}
+         \label{fig:arbitary_n200}
+     \end{subfigure} 
+        \caption{With the segmentation approach it is possible to generate an arbitrary set of equally spaced points on the surface of a sphere which then can be used to create the vectors to segment the volume. }
+        \label{fig:arbitrary_example}
+\end{figure}
+
+From this triangular tessellation it is possible to derive a set of origin vectors which segment the measurement volume. The numbers on the points represent the order in which these vectors are generated. This is exemplified for $N = 14$ vectors in Figure \ref{vectors_from_points}:
+
+\begin{figure}[H]
+    \includegraphics[width=1.39\textwidth,center]{arbitrary_nomals14_plus_vectors.eps}
+    \caption{Left: A distribution of $N = 14$ points which equals Figure \ref{fig:arbitrary_example} in the top left. Right: The derived origin vectors for those 14 points.}
+    \label{vectors_from_points}
+\end{figure}
 
 
+Since the algorithm primarily assigns each point to a random position the results would be non-reproducible. Therefore, the seed of the random number generator was set to one for each iteration so that the resulting set of points would lead to the generation of properly comparable vectors. 
+
+The numerical solutions of the Thomson Problem with different numbers of particles comes to the conclusion that the minimisation of the energy results in the particles taking the form of known polyhedra. Depending on the number of charged elements $N$ different polyhedra can be expected. For $N = 4$ the minimisation of the energy results in the alignment of the electrically charged particles in the form of a tetraeder. For example for $N = 6$ they will form an octaeder and with $N = 12$ they will approximate an icosaeder. These forms are part of the platonic solids that were introduced in chapter \ref{chap:platonicsolids}. Thus, it does not make sense to generate a uniform distribution for $N = 12$ and $N = 20$ particles as we can reach these results in a much more efficient way by utilising the geometry of the platonic solids. Nevertheless, the implementation allows any number of $N > 2$ particles to find an optimal solution even if the platonic solids provide a more efficient alternative for certain numbers of particles.
 
 
+\section{Comparison Vectors}
+\label{sec:comp_vect}
 
-For every emitter-receiver combination, for each voxel and each rotation position of the aperture one calculation of the angle between two vectors has to be performed. Depending on which geometry is used for every normal of the faces of the geometry this calculation hast to be repeated. The number of calculations results in:
-
-\boxed{ \# Calculations = \#Voxel \cdot \#Emitter \cdot \#Receiver \cdot \#AperturRotation \cdot \#Faces}
-
-For the case of using a 12 face dodecahedron, 628 emitters, 1413 receivers, only a single slice of 1024x64 voxels and ten aperture positions already $[628 \cdot 1413 \cdot 1024 \cdot 64 \cdot 10 \cdot 12] = 6.98x10^{12}$ calculations have to be  performed to find the smallest angle index. By decreasing the complexity of these calculations the performance of the reconstruction algorithm can be greatly improved. To reduce the computational cost it is not necessary to calculate the absolute angle between each vector combination. It simply can be proven that for certain circumstances one certain combination of direction vector and face-normal has the smallest angle of the available set. The following segment is adapted from \cite{PatrickHucker2014EvaluationRuckstreumodells} and some inaccuracies were corrected.
-
-\qquad
-
-In the following $\overrightarrow{v}$ is the direction vector from the \ac{ascan} which should be matched best to one of the norm vectors $\overrightarrow{n_i}$ from the $N$ faces of the used geometry.
-
+The \ac{saft} yields a value $V_k$ for the particular voxel. The discretisation of the direction information now allows for the voxel value to be assigned to a certain index of the direction vectors. Each volume of the final image for each direction vector will be assigned only to those voxel values that belong to that direction index.
+To assign a certain voxel value $V_k$ to each of the direction vectors' indices a comparison vector has to be defined for that \ac{ascan}. For this thesis mainly the comparison vectors comprise the vector from the position of the voxel which is analysed in that certain step to the position of the receiving transducer:
 
 \begin{equation}
-\angle (\overrightarrow{v},\overrightarrow{n_i}) =  cos^{-1}\left (    \frac{(\overrightarrow{v} \cdot \overrightarrow{n_i})}{\left \| \overrightarrow{v} \right \|_2  \cdot {\left \| \overrightarrow{n_i} \right \|_2}}  \right ) 
-\label{equation_with_v_n}
+\vec{V}_{comp,vox\_rec} = \begin{bmatrix}
+X
+\\
+Y 
+\\
+Z 
+\end{bmatrix}_{rec}
+-
+\begin{bmatrix}
+X
+\\
+Y 
+\\
+Z 
+\end{bmatrix}_{vox}
+\label{comp_vect}
 \end{equation}
 
+and the vector from the voxel position to the emitter:
 
-
-For the first simplification we can neglect the $arccos$ in equation \ref{equation_with_v_n}. Since the arccosine is monotonically decreasing in the interval $[-1,1]$ (Figure \ref{accos_figure}) only the argument of the $arccos$ has to be regarded to find the smallest angle $\angle (\overrightarrow{v},\overrightarrow{n_i})$. To reach a small value for the arccosine function its argument has to become as big as possible.
 \begin{equation}
-min \left (  \angle (\overrightarrow{v},\overrightarrow{n_i}) \right ) =  max \left (    \frac{(\overrightarrow{v} \cdot \overrightarrow{n_i})}{\left \| \overrightarrow{v} \right \|_2  \cdot {\left \| \overrightarrow{n_i} \right \|_2}}  \right ) 
-\label{equation_acos_neglect}
+\vec{V}_{comp,vox\_emit} = \begin{bmatrix}
+X
+\\
+Y 
+\\
+Z 
+\end{bmatrix}_{emit}
+-
+\begin{bmatrix}
+X
+\\
+Y 
+\\
+Z 
+\end{bmatrix}_{vox}
+\label{comp_vec2t}
 \end{equation}
+
+It is essential to normalise the comparison vectors as well as to define them starting at the voxel position. In case of defining for example the direction vector from Equation \ref{comp_vec2t} from the emitter to the voxel the reconstructed image would be rotated $180^{\circ}$ since the algebraic sign of the orthogonality is switched.
+In previous approaches only one direction vector was used. The reason for that was the assumption of a specular reflectivity model of the tissue which was mentioned in section \ref{sig:flect_character}. The usage of two different direction vectors for the emitter-voxel relation as well as for the receiver-voxel relation makes it possible to actually analyse the reflection characteristics of the tissue. For the receiver and emitter a new dimension of the reconstructed image is introduced which allows for the sampling of the reflection characteristic of each voxel and quantify the specular and diffuse parts in the reflection. The result is a five dimensional image with all the directional information stored in one of the arrays as it was explained in section \ref{chap:SAFT_Augment}. This potentially leads to a higher diagnostic value of the tissue classification than the previous case.
+
+
+
+\section{General procedure for calculating directional information}
+\label{chap:algo_for_direction_recon}
+
+
+For the \ac{saft} in section \ref{sec:SAFT} each voxel was assigned a certain value $V_k$ independently of any angular information between the voxel, the emitter and the receiver configuration. During this process practically every directional information of the data is lost. To prevent this loss of information each \ac{ascan} has to be assigned to a certain direction during the reconstruction. Figure \ref{Basic_Algo_Angle_ident} shows the general procedure of reconstructing an \ac{usct}-image with directional information. The flowchart shows the algorithmic description of the assignment process that was exemplary described in section \ref{chap:SAFT_Augment} with the Rubik's cubes.
+
+The first stage of the flow chart is the \textbf{start of the reconstruction}. This step summarises all the preprocessing requirements of the \ac{saft} for example the quality evaluation of each \ac{ascan} and the identification of suitable receiver-emitter-configurations.
+After the preprocessing the measurement volume is segmented by \textbf{generating a set of direction vectors}. This procedure of setting up the direction vectors is explained in section \ref{chap:segmentation}. At this point theoretically any vector in the voxel could be assigned to an direction vector. 
+
+Then, with the direction vectors and a suitable set of \acp{ascan} it is possible to start with the assignment loop for the first direction vector and the first \ac{ascan}. The loop begins with the first \ac{ascan} ($AScan[0]$) and the first direction-vector for the 4th and the 5th dimension ($direction\_vector4D[0]$ and $direction\_vector5D[0]$). 
+
+The \textbf{\ac{saft}}-section of the flow chart considers each of the \acp{ascan} and calculates a voxel value $V_k$ as it was explained in section \ref{sec:SAFT}. During this process also the speed of sound correction from section \ref{sec:sos_correct} takes effect which leads to an overall increased contrast and resolution of the final image.  
+
+The stage following the \ac{saft} covers the process of deciding on a so called \textbf{comparison vector} for each iteration of the loop. Section \ref{sec:comp_vect} gives more details on that step.
+
+With the $vector\_index$ it is possible to decide which voxel value $V_k$ of the \ac{saft} belongs to the current direction vectors. The procedure of the \textbf{assignment of the direction index to the comparison vectors} with all the preliminary calculations is explained in section \ref{sec:index_ident}. After the assignment of the voxel value $V_k$ to the suitable direction index the process of calculating a voxel value $V_k$ and determining a comparison vector starts anew with the next \ac{ascan}.
+Since all the calculations have to be repeated for every direction vector, once arrived at the last \ac{ascan} the next direction vector for the 4th dimension is loaded and the whole process repeats itself. After all $direction\_vector4D$ were processed the outer loop selects the next $direction\_vector5D$ and the we start from the top of the loop again.  
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\textwidth]{accos.png}
-    \caption{ Monotonically decreasing arccosine function.}
-    \label{accos_figure}
+    \includegraphics[width=1.13\textwidth]{Graphics/AngleIndex_Algorithm.png}
+    \caption{Flow chart of the algorithm for the reconstruction of an \ac{usct}-image while preserving directional information in the data.}
+    \label{Basic_Algo_Angle_ident}
 \end{figure}
 
-Since the euclidean norm of a normal vector $\left \| \overrightarrow{n_i} \right \|_2 = 1 , \forall i \in [1,...,N]$, the equation \ref{equation_acos_neglect} can be simplified further:
+This approach leads to a 5 dimensional image with all the directional information that are necessary to analyse the reflection characteristics of the tissue sample. Since there multiple repeated executions of the same functions in this algorithm it is important to optimise each calculation step as much as possible. 
 
 
-\begin{equation}
-min \left (  \angle (\overrightarrow{v},\overrightarrow{n_i}) \right ) =  max \left (    \frac{(\overrightarrow{v} \cdot \overrightarrow{n_i})}{\left \| \overrightarrow{v} \right \|_2  \cdot { \underset{=1}{\underbrace{\left \| \overrightarrow{n_i} \right \|_2}}} }  \right ) = 
-max \left (    \frac{(\overrightarrow{v} \cdot \overrightarrow{n_i})}{\left \| \overrightarrow{v} \right \|_2  }  \right )
-\label{equation_acos_norm_simply}
-\end{equation}
-
-During the search of the smallest angle between the direction vector $\overrightarrow{v}$ and the set of normal vectors $\overrightarrow{n_i}$ the direction vector $\overrightarrow{v}$ does not change. 
-The norm of the direction vector $\left \| \overrightarrow{v} \right \|_2$ is the same in every iteration of the search, thus has no influence on the final result and therefore can be remove from the formula.
-
-\begin{equation}
-min \left (  \angle (\overrightarrow{v},\overrightarrow{n_i}) \right ) = 
-max \left (    \frac{(\overrightarrow{v} \cdot \overrightarrow{n_i})}{\left \| \overrightarrow{v} \right \|_2  }  \right ) = max \left (    \overrightarrow{v} \cdot \overrightarrow{n_i}  \right ) 
-\label{equation_other_norm_simply}
-\end{equation}
-
-The final problem arises from equation \ref{equation_other_norm_simply}. The goal is to find the index $i_0$ for which the product of the direction vector $\overrightarrow{v}$ and the normal $\overrightarrow{n_{i_0}}$ is maximised: 
-
-\begin{equation}
-i_0 = \underset{i \in 0..N}{\mathrm{argmax}} \left (    \overrightarrow{v} \cdot \overrightarrow{n_i}  \right )
-\label{equation_arg_max}
-\end{equation}
 
 
+
+
+
+
+\section{Assignment of direction vectors}
+\label{sec:index_ident}
+
+With the methods explained in section \ref{chap:segmentation} we receive a set of direction vectors which divide our measurement volume in an even manner. 
+Furthermore, with the methods from section \ref{sec:comp_vect} one obtains two comparison vectors for each \ac{ascan} in the five dimensional case. The \ac{saft} yields a voxel value $V_k$ that results from this emitter-receiver-configuration which also led to the comparison vectors (e.g. voxel to receiver and voxel to emitter). The next step is the identification of a feasible direction vector for each \ac{ascan} and the assignment of the voxel value $V_k$ to this vectors index. Two different methods will be presented: the angle sorting method which was adapted from Patrick Hucker \cite{PatrickHucker2014EvaluationRuckstreumodells} and a novel approach, the orthogonality threshold. Both methods will be called for every \ac{ascan}, for every possible direction vector in 4D and also for every direction vector in 5D. The assignment of the direction index to the comparison vector takes place in the dotted stage of the reconstruction algorithm which is shown in Figure \ref{Basic_Algo_Angle_ident}. First it shall be shown that the orthogonality is a good metric to find the closest angle between multiple vectors and how to use it in both methods to assign a direction index to the comparison vectors. 
 
 \subsection{Orthogonality}
-For the analysis of the direction-dependent reflection characteristics each \ac{ascan} has to be assigned to a certain direction of the voxel.
-In chapter \ref{chap:segmentation} the methods for the segmentation of the volume were explained. Either the geometrical approach with the platonic solids or the arbitrary segmentation was chosen for the segmentation of the volume. In either case there is a set of equally distributed vectors which divide the volume into multiple segments. To assign the \ac{ascan} to a certain direction the orthogonality provides a good metric since the orthogonality is independent of the azimuth rotation direction between two vectors $\overrightarrow{a}$ and $ \overrightarrow{b}$. 
-To get a conclusive result concerning the angular relation of two vectors one requirement of this method is that every vector has to be normalised. The length of each vector affects the scalar product and with that the orthogonality of the vector pair.
-If this requirement is met one can arrive at the following:
+\label{sec:orthogonality}
+
+For the analysis of the direction-dependent reflection characteristics each \ac{ascan} has to be assigned to a certain direction of the voxel. Since each direction vector is assigned a certain index it is desired to find the corresponding index for each \ac{ascan}. 
+In chapter \ref{chap:segmentation} the methods for the segmentation of the volume were explained. Either the geometrical approach with the platonic solids or the arbitrary segmentation was chosen for the segmentation of the volume. In either case there is a set of equally distributed vectors which divide the direction information of the voxel into multiple segments. To assign each \ac{ascan} to a certain direction the orthogonality provides a good metric since it is independent of the azimuthal rotation between two vectors $\overrightarrow{a}$ and $ \overrightarrow{b}$. 
+To get a conclusive result concerning the angular relation of two vectors one requirement of this method is that every vector has to be normalised. The length of each vector affects the scalar product and with that the value for the orthogonality of the vector pair.
+If this requirement is met one can arrive at the definition of perpendicularity:
 
 Two vectors $\overrightarrow{a}$ and $\overrightarrow{b}$ are considered orthogonal to each other if the following assumption is fulfilled:
 
@@ -202,18 +326,17 @@ Two vectors $\overrightarrow{a}$ and $\overrightarrow{b}$ are considered orthogo
 \label{equation_orthogonality}
 \end{equation}
 
-
-As an example the distribution of the orthogonality between the vectors $\overrightarrow{a}$ and $\overrightarrow{b}$  is shown in Figure \ref{orthogonaltiy_figure}. Vector $\overrightarrow{a} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$ is represented by the green arrow on the left side. It serves as a constant reference vector. On the right side there are three possible vectors $\overrightarrow{b}$ shown.
+Since this case only covers the case of an exact right angle between both vectors it is important to have a look at the the distribution of the orthogonality between the vectors $\overrightarrow{a}$ and $\overrightarrow{b}$ for different angles. An example is shown in Figure \ref{orthogonaltiy_figure}. Vector $\overrightarrow{a} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$ is represented by the green arrow on the left side. It serves as a constant reference vector. On the right side there are shown three possible vectors $\overrightarrow{b}$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Graphics/orthogonality.png}
-    \caption{Example for the calculation of the orthogonality of one static reference vector$\overrightarrow{a}$ on the left side and three possible candidates for $\overrightarrow{b}$ on the right. The calculation show the transition of the orthogonality from its minimum at $-1$ to the maximum at $1$.}
+    \caption{Example for the calculation of the orthogonality of one static reference vector$\overrightarrow{a}$ on the left side and three possible candidates for $\overrightarrow{b}$ on the right. The calculation show the transition of the orthogonality from its minimum of $-1$ to the maximum of $1$.}
     \label{orthogonaltiy_figure}
 \end{figure}
 
 The calculations on the right side of Figure \ref{orthogonaltiy_figure} show the orthogonality between each combination of $\overrightarrow{a}$ and $\overrightarrow{b}$. For example vector $\overrightarrow{a}$ and the purple vector $\overrightarrow{b}$ are perpendicular to each other. The calculations show that the orthogonality between both is zero and therefore fulfil the requirement of Equation \ref{equation_orthogonality}. The red vector $\overrightarrow{b}$ and the green comparison vector $\overrightarrow{a}$ comprise an angle of $180^{\circ}$ and therefore both vectors are pointing in the exact opposite direction. This results in an orthogonality of minus one.
-If the vector $\overrightarrow{b}$ is pointing in the same direction as vector $\overrightarrow{a}$ they are parallel and the orthogonality between both is one. The dotted semicircle shows the transition of the orthogonality from its minimum to its maximum. In this interval the orthogonality monotonically increases non-linearly from $-1$ to $1$. An example of the non-linearity of the orthogonality is given in Figure \ref{orthogonaltiy_figure2}:
+If the vector $\overrightarrow{b}$ is pointing in the same direction as vector $\overrightarrow{a}$ they are parallel and the orthogonality between both is one. The dotted semicircle shows the transition of the orthogonality from its minimum to its maximum. In this interval the orthogonality monotonically increases non-linearly from $-1$ to $1$. The reason for the non-linear behaviour is the correlation of the scalar product with the cosine function. The scalar product of two vectors corresponds to the cosine of the angle between those vectors. For a right angle ($90^{\circ}$) the cosine becomes zero and for parallel case ($0^{\circ}$) the cosine results in one. An example of the non-linearity of the orthogonality and its relation to the cosine function is given in Figure \ref{orthogonaltiy_figure2}:
 
 \begin{figure}[H]
     \centering
@@ -223,24 +346,168 @@ If the vector $\overrightarrow{b}$ is pointing in the same direction as vector $
 \end{figure}
 
 The orthogonality between the blue vector $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$ and the purple vector $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$ is zero since both are perpendicular. The normalised bisector in between is shown by the orange vector.
-The orthogonality between the blue vector and the bisector is approximately $0.71$ which shows the non-linear behaviour of the orthogonality which otherwise would have resulted in an orthogonality of $0.5$.
+The orthogonality between the blue vector and the bisector is approximately $0.71$.
 
 
 
 
 
-\section{Assignment of data to the segmentation vectors}
-\label{sec:assigment}
+\subsection{Angle Sorting Method}
+\label{chap:angle_sorting}
+The first method of assigning a direction index to a certain comparison vector will be explained in this chapter. It is an adaption of the angle sorting method from Patrick Hucker \cite{PatrickHucker2014EvaluationRuckstreumodells}. It was extended to the 5th dimension.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.12\textwidth]{Graphics/Angle_Sorting.png}
+    \caption{Flowchart of the angle sorting algorithm.}
+    \label{angle_sorting_flow}
+\end{figure}
+
+The input parameters for this approach are the $comparison\_vector4D$ and $comparison\_vector5D$ for both dimensions.
+For this example they will be defined as the vector from the voxel to receiver for the $comparison\_vector4D$ and the vector from the voxel to the emitter for  $comparison\_vector5D$.
+The direction vectors that discretise the direction information of the volume have to be imported as well. They are regarded as input argument for the algorithm as an interleaved array of vector coordinates. 
+The whole reconstruction is repeated two times for every direction vector there is. In each iteration two current direction vectors for the 4th and 5th dimension are given. The indices of the two direction vectors that are under investigation in that particular iteration of the reconstruction are given as $current\_direction\_vector4D$ and $current\_direction\_vector5D$.
+
+In the 2nd stage of this approach the iterators $i\_4D$ and $j\_5D$ are initialised. Furthermore, the variables $smallest\_angle4D$ and $smallest\_angle5D$ are initialised as an arbitrary small value. They will later hold the smallest orthogonality of the set of direction vectors to the comparison vector. The $angleIndex4D$ and $angleIndex5D$ are set to zero in the beginning. 
+
+In the 3rd stage of this method the direction vectors for the first iteration $i\_4D = 0$ are calculated. As the coordinates of the direction vectors are stored in an interleaved array, pointer operations can be used to access the coordinates. For '$+0$' the first coordinate of the direction vector is loaded. Analogously, the second and the third coordinates are taken from the array with '$+1$' and '$+2$'. The result is the first direction vector $dir\_vec4D$ for the first iteration of $i\_4D$.
+
+This is the point where the orthogonality comes into play. With the $comparison\_vector4D$ and the first direction vector $dir\_vec4D$ the scalar product can be calculated. The result is stored in variable $thisangle4D$ which ultimately is nothing else but the orthogonality between the two vectors. The following step is for the decision whether this new $thisangle4D$ is bigger than the $smallest\_angle4D$. If this is the case the left path is taken and the $angleIndex4D$ is set to the current value of the iterator $i\_4D$ and the new $smallest\_angle4D$ is set as $thisangle4D$.
+
+Since $smallest\_angle4D$ was initialised as a very small value the first iteration will always lead to the left path which overwrites $smallest\_angle4D$. If the setting of a new $smallest\_angle4D$ is done the iterator $i\_4D$ will be incremented by one if the last direction vector was not already reached.
+Again a direction vector $dir\_vec4D$ is calculated from the coordinate array and the orthogonality is calculated and stored as $thisangle4D$. Once again the control structure checks if the new $thisangle4D$ is smaller than the $smallest\_angle4D$ that was set in the iteration before. For the case being bigger again the left path is chosen and the old $angleIndex4D$ is replaced by the actual iterator $i\_4D$ and the old $smallest\_angle4D$ is replaced by the new $thisangle4D$. 
+
+In case of $thisangle4D$ not being bigger than the previous $smallest\_angle4D$ at the end of the left side of the flowchart, the right path is taken. This leaves the $angleIndex4D$ and the $smallest\_angle4D$ unchanged.
+This procedure is repeated for every direction vector there is. Upon reaching the last iteration in the variable  $smallest\_angle4D$ there is saved the orthogonality between the $comparison\_vector4D$ and its closest direction vector. The direction vectors index is stored in $angleIndex4D$. 
+
+After comparing the the $angleIndex4D$ with the current $current\_direction\_vector4D$ there are two options. The first is for the case that the $angleIndex4D$ and the current $current\_direction\_vector4D$ do not match. For that case the algorithm will be stopped and the next \ac{ascan} will be analysed. This would lead to a new $comparison\_vector4D$ and possibly to a new $angleIndex4D$. 
+
+The other option is that the $angleIndex4D$ and the $current\_direction\_vector4D$ actually are the same. In this case the flowchart on the right side of Figure \ref{angle_sorting_flow} will be followed. It shows exactly same procedure but this time for the 5th dimension. In the end there also is an $angleIndex5D$ which will be compared to the $current\_direction\_vector5D$. If they coincide the direction vector $dir\_vec4D$ will be assigned to $angleIndex4D$ and analogously the direction vector $dir\_vec5D$ will be assigned to $angleIndex5D$. From there the algorithm in Figure \ref{Basic_Algo_Angle_ident} continues with the next \ac{ascan}. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Decision area for the angle sorting approach}
+
+For the angle sorting approach the decision area for each direction vector is given by the geometrical boundaries of the geometrical arrangement of the direction vectors. For the cases of the platonic solids these geometries are known. An example for the deodecahedron is given in Figure \ref{decision_area_dodeca}. In that example six pentagonal faces of the dodecahedron are shown. The direction vectors are plotted in the middle of each face. The assignment of an comparison vector to a direction vector only depends on the face that would be pierced by the comparison vector. The particular face then leads to the direction vector and its index is assigned to that comparison vector. The whole area of each pentagon serves as decision area and the decision boundaries are the corners of the pentagon. Consequently, comparison vectors that pierce the face at a 'tip' where two boundaries meet have a larger angle to the actual direction vector than a comparison vector that pierces at the middle of a boundary of the same face. Still, both comparison vectors would be assigned the same index regardless of their different angles to the direction vector.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Graphics/decision_area_normal.jpg}
+    \caption{2D Example of the decision areas for the partial dodecahedron. Depending on what face of the geometry is pierced by the comparison vector it gets assigned the index of the corresponding direction vector of that face. The decision boundaries for each direction vector are the edges of the particular pentagon.}
+    \label{decision_area_dodeca}
+\end{figure}
+
+The decision boundaries for $N \neq \left \{ 6,12,20 \right \}$ particles do not lead to any known platonic solid geometries. For those unknown cases the angle sorting algorithm also assigns the comparison vector to a particular direction vectors index but the decision boundaries are not as easy to plot in those cases.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Orthogonality Threshold Method}
+\label{chap:ortho_threshold}
+
+A new index identification approach is introduced in this chapter. Instead of comparing each individual direction vector with the  comparison vector, the new method calculates a threshold value beforehand and compares the orthogonality of the comparison vector to this threshold.
+
+
+
+
+
+
+\subsubsection{Decision area for orthogonality threshold}
+\label{decison_orthonolatiy}
+
+In the case of the generation of an arbitrary number of direction vectors generally there are no known geometries. In theory the angle sorting algorithm would also lead to a decision on each direction vector. Since this criterion is hard to very for unknown geometries the goal is to find a new criterion for all direction vectors which lead to the same boundaries. These areas of decision are chosen to be cone shaped with the opening angle of the cones relating to the angle of the bisector between two normals. An example for that is shown in Figure \ref{decision_arbitrary_bisec}:
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Graphics/decision_area_calc_bisector.jpg}
+    \caption{Calculation of the bisector between the nearest neighbour of the first normal.}
+    \label{decision_arbitrary_bisec}
+\end{figure}
+
+The approach of the orthogonality threshold theoretically can be applied to any set of direction vectors. The direction vectors in this example are generated by the \textbf{arbitrary approach}. For $N = 12$ particles the arbitrary approach  yields the same distribution of direction vectors as the dodecahedron does. Therefore, the decision areas of the angle sorting approach are shown as reference in this example. The first step to find an orthogonality threshold for the decision criterion is to find the nearest neighbour of the first direction vector by the means of orthogonality. This is shown in Figure \ref{decision_arbitrary_bisec}. The orthogonality if calculated for each combination of the first direction vector with each other direction vector in the geometry. To keep the impact on the computation time as small as possible, this is only an approximation to find the nearest neighbour in the whole geometry. This nearest neighbour is only searched for the first direction vector. Theoretically, every combination with each direction vector has to be tested to find the global minimum. For the pair with the highest orthogonality it can be assumed that this is the approximately nearest neighbour by means of the angle between them. In this example the closest pair of vectors is the first and the fourth one. Between those two vectors the normalised angle bisector is constructed. After this step the orthogonality between the first direction vector and the angle bisector is calculated. This results in the orthogonality threshold for the algorithm. As was shown in section \ref{sec:orthogonality} the absolute angle between two vectors is not important when it comes to assigning a direction index to it. If a the orthogonality between a comparison vector and the direction vector is above the orthogonality threshold this comparison vector will be assigned to that direction vector.
+In the 2D example the decision boundaries can be plotted as circular areas around the direction vectors. This is shown in Figure \ref{decision_arbitrary_circular}:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Graphics/decision_area_Circles.jpg}
+    \caption{Circular decision areas around each direction vector.}
+    \label{decision_arbitrary_circular}
+\end{figure}
+
+The red circles mark the decision areas where a potential comparison vector would be assigned to the direction vector in the middle of that particular circle. Between those circles the previous decision areas for the angle sorting method are visible. It becomes clear that some areas of the pentagon are not part of the decision area anymore. This is a disadvantage of the approach with the threshold orthogonality. Every comparison vector that misses the circular decision areas is not assigned to a direction vector at all and will not be part of the reconstructed image.
+The consequence of that is that the time needed to save the \ac{ascan} into the corresponding image is saved for this missed \ac{ascan} by continuing to another \ac{ascan}. In theory the problem of missing some \acp{ascan} could be circumvented by construction another the bisector than the one in the middle between the two closest direction vectors.
+An alternative would be to chose one 'tip' of the pentagon as threshold value. Then the whole area of the pentagon would be part of the decision circle. The decision areas then would overlap and some \acp{ascan} would be assigned to two direction vectors at the same time. Since the geometrical information to find the 'tip' are not available when the arbitrary approach is used and the overlap of decision areas would lead to ambiguities the solution in Figure \ref{decision_arbitrary_circular} is preferred. 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Graphics/decision_cones.eps}
+    \caption{Decision areas for the orthogonality threshold in 3D depicted as cones.}
+    \label{figdecisioncones}
+\end{figure}
+
+
+Figure \ref{figdecisioncones} shows an extension of the direction vectors which were shown in in Figure \ref{vectors_from_points} on the right. For each direction vector the decision cone was plotted and it shows the boundaries of each direction vector. Each cone has the opening angle which corresponds to the angle between the first normal and the bisector between the first direction vector and its nearest neighbour. Each comparison vector which lays inside one cone would be assigned to the index of the corresponding direction vector in the middle of that cone.
+
+\subsubsection{Index assignment with orthogonality threshold}
+
+The new technique for assigning an direction index to a certain comparison vector is introduced in this section. It has some similarities to the previous angle sorting approach but differs from it in context of performance. The principle is explained with the following flowchart:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.79\textwidth]{Graphics/Fringe_Orthogonality.png}
+    \caption{Flowchart of the orthogonality threshold algorithm in 5D.}
+    \label{ortho_threshold_flow}
+\end{figure}
+
+The input parameters for this approach are the two \textbf{comparison vectors} for both dimensions. Since the definition of the comparison vectors is free, for this example they will be defined as following: the $comparison\_vector4D$ is defined as the vector from the voxel to receiver. The other $comparison\_vector5D$ is defined as the vector from the voxel to the emitter.
+The set of \textbf{direction vectors} that discretise the direction information of the volume are also part of the input values in form of an interleaved array of coordinates. Next the threshold value as decision criteria for each direction vector is imported. The calculation of the \textbf{orthogonality threshold} is explained in section \ref{decison_orthonolatiy}. The indices of the two direction vectors that are under investigation in that particular iteration of the reconstruction are given as $current\_direction\_vector4D$ and $current\_direction\_vector5D$. 
+In the 2nd stage of the procedure the coordinates of the direction vectors for the 4D case have to be chosen from the set of direction vectors, since $current\_direction\_vector4D$ and $current\_direction\_vector5D$ were only given as indices. As the coordinates of the direction vectors are interleaved in the array they can be accessed with the pointer operation that is shown in the 2nd step of the flowchart. For '$+0$' the first coordinate of the direction vector is loaded. Analogously, for '$+1$' and '$+2$' the second and the third coordinates are taken from the array.
+With that we have the current direction vector $dir\_vec4D$ for that iteration.
+The scalar product between the $comparison\_vector4D$ and the direction vector $dir\_vec4D$ is calculated in the last part of the 2nd stage. The resulting $orthogonality4D$ is compared to the $orthogonality\_threshold$ which was part of the input parameters. If the $orthogonality4D$ is smaller than the $orthogonality\_threshold$ it can be assumed that the $comparison\_vector4D$ does not belong to the currently investigated $dir\_vec4D$. In this case the algorithm will stop and continue with the next \ac{ascan} where a new $comparison\_vector4D$ is calculated. 
+If the condition leads to the conclusion that the $orthogonality4D$ is larger than the $orthogonality\_threshold$ the next stage of the algorithm is started.
+The procedure is repeated for the 5th dimension in the same manner leading to the $orthogonality5D$. If $orthogonality5D$ actually is larger than the $orthogonality\_threshold$ the voxel value will be assigned to the voxel position[x,y,z] and to the corresponding 4th and 5th dimension of the output volume. If not, the algorithm again will stop before any voxel value can be assigned to any part of the image and the next \ac{ascan} will be analysed.
+
+
+
 
 
 
 
 \section{Performance evaluation}
-To quantify how much overhead is generated by the additional calculation of the angle index.....
+\label{Perform_eval}
 
+In theory the voxel volume can be segmented into an arbitrary set of directions with a very high density of direction vectors. To find the corresponding vector index for each \ac{ascan} the process of index identification which is explained in section \ref{sec:index_ident} has to be repeated for every emitter-receiver combination, for each voxel and each rotation position of the aperture. Furthermore, the calculation has to be repeated for each direction vector twice. Depending on which geometry or what number of $N$ particles is chosen for the generation of direction vectors, this could lead to a large amount of data that has to be processed. The average reconstruction of a three dimensional measurement volume results in
 
-
-
-\begin{gather*}
-Centered
-\end{gather*} 
+\smallskip
+\boxed{ \# \, Calculations = \# \, Voxel \cdot \# \, Emitter \cdot \# \, Receiver \cdot \# \, AperturRotation \cdot \# \, Vectors ^2}
+\smallskip
+number of calculations. For the case of using a 12 faced dodecahedron, 628 emitters, 1413 receivers, a volume of 250x250x250 voxels and ten aperture positions $[12^2 \cdot 628 \cdot 1413 \cdot 250^3 \cdot 10] = 1.982x10^{16}$ calculations have to be performed to find the smallest vector index. Therefore, the performance impact of the algorithms for the identification of the index is non-negligible. By decreasing the complexity of these calculations the performance of the reconstruction algorithm can be greatly improved. The general structure of the reconstruction which is shown in Figure \ref{Basic_Algo_Angle_ident} is kept for the performance analysis. To speed up the process the 5th dimension is kept constant during the execution. This leads to an only 4 dimensional reconstructed image. For the evaluation a script was written which called the reconstruction function with an increasing amount of direction vectors. For each choice of the number of direction vectors the four dimensional image is reconstructed in whole. The procedure is repeated for the angle sorting approach and the new orthogonality approach. The result of the measurements is presented in section \ref{performance_index_ident}.

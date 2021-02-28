@@ -2,11 +2,31 @@
 \chapter{Discussion}
 \label{chap:discussion}
 
-Discuss your results here!
-
 
 \section{4D or 5D geometry}
+
+treat all normals equally with threshold
+But some normals are lost because of hole between cones
+Bad?
+Faster new algorithm? Of course takes lot of overhead > slower .... but most of the time not ascans are assigned -> faster
 
 \section{Specular reflection vs mixed reflection}
 
 \cite{PatrickHucker2014EvaluationRuckstreumodells} specular reflection assumed to be prevailing reflection model. Problem
+
+
+\section{Angle sorting vs. orthogonality threshold}
+In section \ref{sec:index_ident} two approach for the assignment of the direction indexes to comparison vectors were presented. The first method was the angle sorting approach which was extended from an previous implementation. The second method is the orthogonality threshold which was developed during this thesis. Both methods were executed multiple times during the reconstruction and were in charge of deciding which direction index belongs to which comparison vector. In both cases this was achieved by calculating......
+
+
+
+As the adaption of the first method was extended into the fifth dimension its complexity became quite o
+
+
+\section{Advantages of looping implementation}
+
+-> Kein Meomory overflow
+
+\section{Alternative implementation of reconstruction}
+
+-> Directly in c++ code not as loop
