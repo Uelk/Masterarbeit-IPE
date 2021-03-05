@@ -173,44 +173,44 @@ $arctan( \frac{y}{x} ) $               & $= \varphi$                            
 
 
 
-\section{Performance improvement by GPU}
+%\section{Performance improvement by GPU}
 
-In the paper \cite{Gohringer2011ReconfigurableEvaluation} the reconstruction was performed on a CPU, a \ac{gpu} as well as an FPGA. One step of the reconstruction took $150\mu \sec$ for the CPU. The \ac{gpu} managed the same calculation in $3,23 \mu \sec$ whereas the FPGA needed $144 \mu \sec$ to complete the calculation. Therefore, the paper concludes that the \ac{gpu} achieves the highest performance when it comes to the reconstruction of \ac{usct}-images. 
-
-
-\section{Treatment of breast cancer}
-
-One form of possible treatment of breast cancer is the mastectomy. During this procedure big parts of the breast tissue as well as parts of the lymphatic system near the armpit are surgically removed (figure \ref{mastecto_example_picture}).  
+%In the paper \cite{Gohringer2011ReconfigurableEvaluation} the reconstruction was performed on a CPU, a \ac{gpu} as well as an FPGA. One step of the reconstruction took $150\mu \sec$ for the CPU. The \ac{gpu} managed the same calculation in $3,23 \mu \sec$ whereas the FPGA needed $144 \mu \sec$ to complete the calculation. Therefore, the paper concludes that the \ac{gpu} achieves the highest performance when it comes to the reconstruction of \ac{usct}-images. 
 
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{Graphics/Mastectomy.jpg}
-    \caption{Treatment of female breast cancer. During the mastectomy big parts of the breast are surgically removed (marked by dotted line). Picture source: \cite{NationalInstitutesofHealthNIH-NationalCancerInstituteNCIBreastTreatment}. }
-    \label{mastecto_example_picture}
-\end{figure}
+%\section{Treatment of breast cancer}
 
-This treatment may be combined with chemo therapy to decrease the size the tumour prior to the surgery. The post operative therapy often consists of radiation and hormone therapy to remove any cancer cells that might be left after the the mastectomy \cite{NationalInstitutesofHealthNIH-NationalCancerInstituteNCIBreastTreatment}.
-This further motivates the use of early screening technologies to detect possible tumours before a chemo therapeutic treatment is necessary.
+%One form of possible treatment of breast cancer is the mastectomy. During this procedure big parts of the breast tissue as well as parts of the lymphatic system near the armpit are surgically removed (figure \ref{mastecto_example_picture}).  
 
 
+%\begin{figure}[H]
+   % \centering
+%    \includegraphics[width=0.75\textwidth]{Graphics/Mastectomy.jpg}
+%    \caption{Treatment of female breast cancer. During the mastectomy big parts of the breast are surgically removed (marked by dotted line). Picture source: \cite{NationalInstitutesofHealthNIH-NationalCancerInstituteNCIBreastTreatment}. }
+ %   \label{mastecto_example_picture}
+%\end{figure}
+
+%This treatment may be combined with chemo therapy to decrease the size the tumour prior to the surgery. The post operative therapy often consists of radiation and hormone therapy to remove any cancer cells that might be left after the the mastectomy \cite{NationalInstitutesofHealthNIH-NationalCancerInstituteNCIBreastTreatment}.
+%This further motivates the use of early screening technologies to detect possible tumours before a chemo therapeutic treatment is necessary.
 
 
-\section{Imaging techniques}
-\label{Imaging_techniqe}
 
 
-For the regular mammographic screenings typically X-ray-based imaging techniques are in use. The breast has to be compressed between two plates so that a higher contrast of the breast tissue can be archived (see Figure \ref{mammo_example_picture}). Besides the advantages of delivering results shortly after the screening and by having a high enough resolution to detect small tumour cells before they are detectable by palpation, there are certain downsides that have to be considered.
-The biggest problem with X-ray-based mammographic screenings is the usage of ionising radiation. When it comes to x-ray and gamma radiation there is no such thing as a safe dose. Every dose of ionizing radiation of for example a low-dose X-ray mammography has proven to add to the incidence of breast cancer  \cite{Pauwels2015BreastRadiobiology} and so the main objective is the reduction of exposure to ionizing radiation.
+%\section{Imaging techniques}
+%\label{Imaging_techniqe}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{mammography.jpg}
-    \caption{Schematic of the mammography procedure. The breast is pressed between two plates and a beam of X-Ray-Radiation is used to produce the picture. On the bottom right is an example image of a female breast with the white dot indicating cancerogenous tissue. Picture source: \cite{NationalInstitutesofHealthNIH-NationalCancerInstituteNCIBreastTreatment}. }
-    \label{mammo_example_picture}
-\end{figure}
 
-Another screening method which is not an imaging technique is the physical examination of the breast either by the patient herself or during a clinical breast exam performed by a health professional. For this method the breast is carefully palpated to check for lumps or any kind of anomaly that might indicate an early stage of breast cancer. This method has one major disadvantage: lumps can only be detected by palpation after they have reached a certain size which, compared to the size of detectability during a mammography screening, is relatively large. Thus, the potential diagnosis of breast cancer solely by palpation often leads to the identification of first cancer symptoms in a later stage compared to mammography or \ac{usct} screening.
+%For the regular mammographic screenings typically X-ray-based imaging techniques are in use. The breast has to be compressed between two plates so that a higher contrast of the breast tissue can be archived (see Figure \ref{mammo_example_picture}). Besides the advantages of delivering results shortly after the screening and by having a high enough resolution to detect small tumour cells before they are detectable by palpation, there are certain downsides that have to be considered.
+%The biggest problem with X-ray-based mammographic screenings is the usage of ionising radiation. When it comes to x-ray and gamma radiation there is no such thing as a safe dose. Every dose of ionizing radiation of for example a low-dose X-ray mammography has proven to add to the incidence of breast cancer  \cite{Pauwels2015BreastRadiobiology} and so the main objective is the reduction of exposure to ionizing radiation.
 
-\bigskip
+%\begin{figure}[H]
+ %   \centering
+  %  \includegraphics[width=0.75\textwidth]{mammography.jpg}
+ %   \caption{Schematic of the mammography procedure. The breast is pressed between two plates and a beam of X-Ray-Radiation is used to produce the picture. On the bottom right is an example image of a female breast with the white dot indicating cancerogenous tissue. Picture source: \cite{NationalInstitutesofHealthNIH-NationalCancerInstituteNCIBreastTreatment}. }
+ %   \label{mammo_example_picture}
+%\end{figure}
+
+%Another screening method which is not an imaging technique is the physical examination of the breast either by the patient herself or during a clinical breast exam performed by a health professional. For this method the breast is carefully palpated to check for lumps or any kind of anomaly that might indicate an early stage of breast cancer. This method has one major disadvantage: lumps can only be detected by palpation after they have reached a certain size which, compared to the size of detectability during a mammography screening, is relatively large. Thus, the potential diagnosis of breast cancer solely by palpation often leads to the identification of first cancer symptoms in a later stage compared to mammography or \ac{usct} screening.
+
+%\bigskip
 

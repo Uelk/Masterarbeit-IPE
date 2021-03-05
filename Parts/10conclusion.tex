@@ -1,15 +1,6 @@
 %!TEX root = ../thesis.tex
-\chapter{Conclusion \& Outlook}
-\label{chap:conclusion}
-
-\section{Optimisation of the execution time}
-\label{chap:optimization_runtime}
-In section \ref{sec:index_ident} there were two methods presented that could be used to map the image information on directional information in the final image. The result was a five dimensional representation of the measurement volume which could be used to analyse the direction of incoming and outgoing ultrasound waves on a test object in the imaging aperture.
-One disadvantage of increasing the image volume to a 5th dimension was the increased computation time to finish the reconstruction. A reconstruction for 14 direction vectors that took 90min to finish in four dimensions took almost 21 hours to finish if the 5th dimension was introduced. One reason for that long period of time for finishing the reconstruction is the vast amount of data that has to be processed and the number of calculation that have to be performed. Figure \ref{Basic_Algo_Angle_ident} shows the general algorithm that has to be performed for the five dimensional reconstruction. The steps of calculating the voxel value $V_k$ with the \ac{saft}, the construction of a suitable pair of comparison vectors and the final assignment of the voxel value $V_k$ to a suitable direction vector has to be repeated twice for every direction vector there is. This has one major advantage: the image volume that has to be processed by the \ac{gpu} is the comparatively small 3D image volume. 
+%\chapter{Conclusion \& Outlook}
+%\label{chap:conclusion}
 
 
 
-\section{Optimisation for execution on \ac{gpu} }
-
-
-Grundstein gelegt für die Auswertung spezifischer Gewebestrukturen -> Daten schon vorbereitet. Im Anschluss tatsächliche Auswertung
