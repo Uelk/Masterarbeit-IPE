@@ -24,16 +24,16 @@ The introduction of the 4th dimension helps with the preservation of directional
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{Graphics/rubicscube4D.png}
+    \includegraphics[width=0.80\textwidth]{Graphics/rubicscube4D.png}
     \caption{The four dimensional image for a total of four directional vectors. For each directional discretisation an additional three dimensional volume is created, hence the four Rubik's cubes. The directional information is represented as the saturation of the different cubes.}
     \label{4D_rubics}
 \end{figure}
 
-The \ac{ascan} is assigned to a certain voxel in one of the four cubes. Each cube belongs to one receiver if the receiver information is stored in the 4\textsuperscript{th} dimension. If the emitter information isregarded, each cube contains the data of one emitter. Information about emitter and receiver can not be stored simultaneously. The schematic of the configuration of emitters and receivers can be seen in the next figure:
+The \ac{ascan} is assigned to a certain voxel in one of the four cubes. Each cube belongs to one receiver if the receiver information is stored in the 4\textsuperscript{th} dimension. If the emitter information isregarded, each cube contains the data of one emitter. Information about emitter and receiver can not be stored simultaneously. The schematic of the configuration of emitters and receivers can be seen in Figure \ref{4D_problem}:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{Graphics/problem_4D.png}
+    \includegraphics[width=0.65\textwidth]{Graphics/problem_4D.png}
     \caption{Example of imaging aperture with four receivers and two emitters.}
     \label{4D_problem}
 \end{figure}
@@ -71,10 +71,6 @@ A challenge of the additional dimension is the exponential growth of the data th
 The first step of the preservation of directional information during the reconstruction is the generation of a suitable set of directional vectors which divide each voxel volume as evenly as possible.
 Theoretically, a continuous approach for the directional information could be pursued. This would lead to set of directional vectors for every voxel to every receiver and every emitter of the \ac{usct}. For this case a constant set of directional vectors would not be feasible since every voxel position affects the vectors from the voxel to the corresponding receivers and emitters. Therefore, an image volume of $250 \times 250 \times 250$ voxels with 157 \ac{tas} and each \ac{tas} containing 4 emitters and 9 receivers would lead to $1.387\times 10^{12}$ directional vectors, if 10 aperture positions are acquired. Each vector is classified by three double values which would lead to $3026.4$ terabytes of data that has to be stored solely for the vector orientations. If the actual image data would be assigned to this hypothetical set of directional vectors the storage requirements would increase manifold. Thus, a trade-off between the resolution of the discretisation and the storage requirements has to be found. To achieve that, the directional information for each voxel is discretised into a set of directional vectors. The directional vectors then are placed into the centre of each voxel facing outwards. During the reconstruction for every directional vector an individual volume is created. This was explained in section \ref{chap:SAFT_Augment}. Theoretically, the directional vectors do not have to be distributed equally. If a certain direction requires a higher resolution of the segmentation it would be no problem to either add more vectors to that particular direction or shift some existing vectors from a less relevant direction to that required direction. In the following it was aspired to distribute the vectors as evenly as possible since no information about the relevance of one certain direction over another are available during the time of writing.
 Section \ref{chap:platonicsolids} explains how the properties of platonic solids can be used to generate a set of either 12 or 20 uniformly distributed vectors. The limitation of the amount of vectors which arises with the usage of platonic solids is tackled by the method of arbitrary segmentation in section \ref{chap:arbitrarySegment}.
-
-
-
-
 
 
 
@@ -189,30 +185,30 @@ For the calculation of the final point configuration the implementation from \ci
 
 \begin{figure}[H]
      \centering
-     \begin{subfigure}[b]{0.48\textwidth}
+     \begin{subfigure}[b]{0.4\textwidth}
          \centering
-        \includegraphics[width=1.2\linewidth]{arbitrary_nomals14.eps}
+        \includegraphics[width=1.3\linewidth]{arbitrary_nomals14.eps}
          %\caption{Configuration for $N = 14$ points.}
          \label{fig:arbitary_n14}
      \end{subfigure}
      \hfill
-     \begin{subfigure}[b]{0.48\textwidth}
+     \begin{subfigure}[b]{0.4\textwidth}
          \centering
-         \includegraphics[width=1.2\textwidth]{Graphics/arbitrary_nomals30.eps}
+         \includegraphics[width=1.3\textwidth]{Graphics/arbitrary_nomals30.eps}
          %\caption{Configuration for $N = 30$ points.}
          \label{fig:arbitary_n30}
      \end{subfigure}
          \hfill
-     \begin{subfigure}[b]{0.48\textwidth}
+     \begin{subfigure}[b]{0.4\textwidth}
          \centering
-         \includegraphics[width=1.2\textwidth]{Graphics/arbitrary_nomals90.eps}
+         \includegraphics[width=1.3\textwidth,left]{Graphics/arbitrary_nomals90.eps}
          %\caption{Configuration for $N = 90$ points.}
          \label{fig:arbitary_n90}
      \end{subfigure}
          \hfill
-     \begin{subfigure}[b]{0.48\textwidth}
+     \begin{subfigure}[b]{0.4\textwidth}
          \centering
-         \includegraphics[width=1.2\textwidth]{Graphics/arbitrary_nomals200.eps}
+         \includegraphics[width=1.3\textwidth]{Graphics/arbitrary_nomals200.eps}
          %\caption{Configuration for $N = 200$ points.}
          \label{fig:arbitary_n200}
      \end{subfigure} 
@@ -320,7 +316,7 @@ Since all the calculations have to be repeated for every directional vector, onc
 
 
 
-
+\newpage
 
 \section{Assignment to the directional dimensions}
 \label{sec:index_ident}
@@ -346,7 +342,7 @@ Since this case only covers the case of an exact right angle between both vector
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Graphics/orthogonality.png}
-    \caption{Example for the calculation of the orthogonality of one static reference vector$\overrightarrow{a}$ on the left side and three possible candidates for $\overrightarrow{b}$ on the right. The calculation show the transition of the orthogonality from its minimum of $-1$ to the maximum of $1$.}
+    \caption{Example for the calculation of the orthogonality of one static reference vector$\overrightarrow{a}$ on the left side and three possible candidates for $\overrightarrow{b}$ on the right. The calculation shows the transition of the orthogonality from its minimum of $-1$ to the maximum of $1$.}
     \label{orthogonaltiy_figure}
 \end{figure}
 
@@ -363,8 +359,11 @@ If the vector $\overrightarrow{b}$ is pointing in the same direction as vector $
 The orthogonality between the blue vector $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$ and the purple vector $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$ is zero since both are perpendicular. The normalised bisector in between is shown by the orange vector.
 The orthogonality between the blue vector and the bisector is approximately $0.71$.
 
+\medskip
 
+An alternative derivation of the method to identify the direction vector is given in \ref{Alternative_herleitung}.
 
+\newpage
 
 
 \subsection{Angle sorting method}
@@ -502,7 +501,7 @@ The new technique for assigning an directional index to a certain comparison vec
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.79\textwidth]{Graphics/Fringe_Orthogonality.png}
+    \includegraphics[width=0.75\textwidth]{Graphics/Fringe_Orthogonality.png}
     \caption{Flowchart of the orthogonality threshold algorithm in 5D.}
     \label{ortho_threshold_flow}
 \end{figure}

@@ -32,7 +32,7 @@ The measurement setup can be seen in Figure \ref{fig:gelatine_setup}:
 \end{figure}
 
 
-The \acp{ascan} were recorded for all 157 \ac{tas} with ten aperture positions so a total of $157\cdot4\cdot157\cdot9\cdot10 = 8.8\cdot10^6$ \acp{ascan} were recorded. The reconstructed reflection image for this data set is shown in Figure \ref{fig:res:reflec_image_olive_xyz}. The sub plots each show a slice through the image. The coloured lines in each plot show the selected slice in the other two coordinate systems. The blue marker belongs to the z-dimension, the green one corresponds to the y-dimension and the red marker shows the x-dimension. Figure \ref{fig:res:reflec_image_olive_xyz_x} shows the x-layer for $x = 0$. That x is equal to zero can be seen in the other two figures where the red markers are located at about 0. Analogously, Figure \ref{fig:res:reflec_image_olive_xyz_y} and  \ref{fig:res:reflec_image_olive_xyz_z} show the y-layer and z-layer of the image.
+The \acp{ascan} were recorded for all 157 \ac{tas} with ten aperture positions so a total of $157\cdot4\cdot157\cdot9\cdot10 = 8.8\cdot10^6$ \acp{ascan} were recorded. The reconstructed reflection image for this data set is shown in Figure \ref{fig:res:reflec_image_olive_xyz}. The sub plots each show a slice through the image. The coloured lines in each plot show the selected slice in the other two coordinate systems. The blue marker belongs to the z-dimension, the green one corresponds to the y-dimension and the red marker shows the x-dimension. Figure \ref{fig:res:reflec_image_olive_xyz_x} shows the x-layer for $x \approx  0$. That x is equal to zero can be seen in the other two figures where the red markers are located at approximately 0. Analogously, Figure \ref{fig:res:reflec_image_olive_xyz_y} and  \ref{fig:res:reflec_image_olive_xyz_z} show the y-layer and z-layer of the image.
 
 \begin{figure}[H]
      \centering
@@ -77,7 +77,7 @@ The volume was only partially considered during the 5D reconstruction to reduce 
     \label{fig:different_tisue_types}
 \end{figure}
     
-
+\newpage
 
 \section{Evaluation of the assignment process during 5D reconstruction}
 The introduction of the fifth dimension was explained in section \ref{chap:SAFT_Augment}. The assignment process of the  voxel value $V_k$ to the voxels in the 4\textsuperscript{th} and 5\textsuperscript{th} dimension was explained in section \ref{sec:index_ident}. The functionality of this process is verified in this section. In this example the 4\textsuperscript{th} dimension will relate to the comparison vector from the voxel to the receiver. The 5\textsuperscript{th} dimension is defined as the comparison vector from the voxel to the emitter. During the reconstruction 14 directional vectors were used. 
@@ -86,7 +86,7 @@ The configuration of active emitters and receivers is shown in Figure \ref{fig:r
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.89\linewidth]{Graphics/Results/4d_5d/5thDim_over_4thDim_150_150_150_apertur.eps}
-    \caption{Configuration of 10 emitting and 145 receiving \ac{tas} and a test voxel in the centre of the aperture. The receivers are shown in green and the emitters as red circles. The units on the axes is given in meter. }
+    \caption{Configuration of 10 emitting and 145 receiving \ac{tas} and a test voxel in the centre of the aperture. The receivers are shown in green and the emitters as red circles. The units on the axes are given in meters. }
     \label{fig:res:5th_dim_over_4th_aperture}
 \end{figure}
 
@@ -103,7 +103,7 @@ The following figure shows the voxel values for the one test voxel in the centre
 \end{figure}
 
 To understand Figure \ref{fig:res:5th_dim_over_4th_result} the example of the Rubik's cubes in Figure \ref{5D_rubics} shall be used. In the previous example there were only four directional vectors. This resulted in $4 \times 4 = 16$ Rubik's cubes. In the 4\textsuperscript{th} dimension the cubes held the information about the receiver directions. The the 5\textsuperscript{th} dimension held the data for the emitters. The here shown data was generated with 14 directional vectors which leads to a $14 \times 14$ matrix with a total of 196 Rubik's cubes. These 196 Rubik's cubes are shown in Figure \ref{fig:res:5th_dim_over_4th_result} but not as whole but only the value of the voxel $[150\, , \, 150\, , \, 150]$ in each cube.
-Every value that can be found in the same row of the matrix in Figure \ref{fig:res:5th_dim_over_4th_result} was recorded by the same emitter. Analogously, every value in the same column belongs to the same receiver. The distribution of values in the 5D-over-4D representation is compared to the emitter-receiver-configuration from Figure \ref{fig:res:5th_4th_cones}. It shows the 14 directional vectors and their corresponding decision cones.
+Every value that can be found in the same row of the matrix in Figure \ref{fig:res:5th_dim_over_4th_result} was recorded by the same emitter. Analogously, every value in the same column belongs to the same receiver. The distribution of values in the 5D-over-4D representation is compared to the emitter-receiver-configuration from Figure \ref{fig:res:5th_4th_cones}. The 14 directional vectors and their corresponding decision cones are shown.
 
 
 \begin{figure}[H]
@@ -154,7 +154,7 @@ In this example the following cones contain emitter positions: 6, 8 and 11. The 
 
 For the receivers, which are plotted in green, the data is stored in the 4\textsuperscript{th} dimension of Figure \ref{fig:res:5th_dim_over_4th_result}. This coincides with the representation in Figure \ref{fig:res:5th_dim_over_4th_result} in which all columns are occupied, for which receivers were assigned to the directional cones. 
 
-There are cones that point towards the opening of the aperture where no transducers are located. Figure \ref{fig:res:5th_4th_cones14} shows an example of cones neither contain emitters nor receivers. The empty cones in this example are 12, 13 and 14. Therefore, no data is recorded for these cones. In the 5D-over-4D representation in Figure \ref{fig:res:5th_dim_over_4th_result} the voxel values of these empty cones are empty. For the indices 12, 13 and 14 neither the columns nor the rows are occupied.
+There are cones that point towards the opening of the aperture where no transducers are located. Figure \ref{fig:res:5th_4th_cones14} shows an example of cones which contain neither emitters nor receivers. The empty cones in this example are 12, 13 and 14. Therefore, no data is recorded for these cones. In the 5D-over-4D representation in Figure \ref{fig:res:5th_dim_over_4th_result} the voxel values of these empty cones are empty. For the indices 12, 13 and 14 neither the columns nor the rows are occupied.
 
 \bigskip
 
@@ -199,7 +199,7 @@ In section \ref{sec:index_ident} two methods for the assignment of comparison ve
 
 Figure \ref{fig:res:slice_diff_bubble_ortho_imagebubble} on the right shows a slightly higher contrast than its counterpart on the left. This can be seen in the legend on the right. The highest voxel value for the orthogonality threshold method results in approximately $3.7\times 10^{13}$ where as the amplitude for the angle sorting method is a bit higher at $4.1\times 10^{13}$. The reason for that is that the angle sorting method of section \ref{chap:angle_sorting} assigns every available \ac{ascan} to a directional vector whereas the orthogonality threshold method discards every \ac{ascan} for which the comparison vector lays between the decision cones. 
 
-It has to be remarked that it is not an inherent characteristic of the orthogonality threshold method to discard a certain amount of \acp{ascan}. For this thesis it was implemented in a particular way so that the decision regions of all directional vectors are all are the same size and overlap as little as possible. This implementation leads to as little ambiguity as possible concerning the directional assignment. The non-overlapping decisions regions that are schematically shown in Figure \ref{decision_arbitrary_circular} lead to a consistent quality of the assignment with the same decision criteria for each directional vector. 
+It has to be remarked that it is not an inherent characteristic of the orthogonality threshold method to discard a certain amount of \acp{ascan}. For this thesis it was implemented in a particular way so that the decision regions of all directional vectors are all the same size and overlap as little as possible. This implementation leads to as little ambiguity as possible concerning the directional assignment. The non-overlapping decisions regions that are schematically shown in Figure \ref{decision_arbitrary_circular} lead to a consistent quality of the assignment with the same decision criteria for each directional vector. 
 
 For the angle sorting method the decision criteria resulted in different acceptance angles depending on whether the comparison vector points towards a 'tip' of two boundaries of the pentagon or if they were located towards the bisector between two directional vectors. In these cases the quality of the assignment can vary.
 
@@ -232,13 +232,13 @@ The overall structure of the array of voxel values for both methods visually app
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.82\linewidth]{Graphics/Results/Diff_angle_sort_orthogonality/diff_ortho_bubble_voxelvalues_150150166_sort.eps}
+    \includegraphics[width=0.7\linewidth]{Graphics/Results/Diff_angle_sort_orthogonality/diff_ortho_bubble_voxelvalues_150150166_sort.eps}
     \caption{Each voxel value of Figure \ref{fig:res:25_voxel_values_diff_bubble_ortho_image} as diagram. The blue graph belongs to the angle sorting Method and the red graph to the orthogonality threshold. }
     \label{fig:Voxel_value_25}
 \end{figure}
 
 
-To make an assessment about how big the influence of the reduced contrast of the Orthogonality Frequency method is the reconstructed 4D images are both reduced to a 3D image. For each of the 25 sub-volumes the same voxel position is considered. This leads to 25 voxel values for one particular voxel in each volume. The mean of those 25 voxel values is calculated and written back into the coordinates of the particular voxel. This is repeated for every voxel there is hence the final images shows approximately the outcome of the standard \ac{saft} without considering the directional information. The final images are shown in figure \ref{fig:res:summareized_bubble_ortho_image}.
+To make an assessment about how big the influence of the reduced contrast of the orthogonality method is, the reconstructed 4D images are both reduced to a 3D image. For each of the 25 sub-volumes the same voxel position is considered. This leads to 25 voxel values for one particular voxel in each volume. The mean of those 25 voxel values is calculated and written back into the coordinates of the particular voxel. This is repeated for every voxel there is hence the final images shows approximately the outcome of the standard \ac{saft} without considering the directional information. The final images are shown in figure \ref{fig:res:summareized_bubble_ortho_image}.
 
 
 
@@ -246,14 +246,14 @@ To make an assessment about how big the influence of the reduced contrast of the
 
 \begin{figure}[H]
      \centering
-     \begin{subfigure}[b]{0.49\textwidth}
+     \begin{subfigure}[b]{0.45\textwidth}
          \centering
          \includegraphics[width=1.12\linewidth]{Graphics/Results/Diff_angle_sort_orthogonality/diff_ortho_bubble_sumImmage_ortho.eps}
          \caption{Orthogonality threshold method.}
          \label{fig:res:summareized_bubble_ortho_image_ortho}
      \end{subfigure}
      \hfill
-     \begin{subfigure}[b]{0.49\textwidth}
+     \begin{subfigure}[b]{0.45\textwidth}
          \centering
          \includegraphics[width=1.12\textwidth]{Graphics/Results/Diff_angle_sort_orthogonality/diff_ortho_bubble_sumImmage_sort.eps}
          \caption{Angle Sorting method.}
@@ -285,7 +285,7 @@ In Section \ref{sec:index_ident} two main approaches were presented for the assi
 
 For the performance analysis the general structure of the reconstruction from Figure \ref{Basic_Algo_Angle_ident} is adapted. To speed up the process, the 5\textsuperscript{th} dimension is kept constant during the execution. This leads to a four dimensional image instead of a five dimensional. For the evaluation a script was written which calls the reconstruction function with an increasing amount of directional vectors. For each choice of the number of directional vectors the four dimensional image is reconstructed in whole. The procedure is repeated for the angle sorting approach and the new orthogonality approach separately.
 
-The following calculations were performed on two \acp{gpu} (NVidia GeForce 2080 Ti) with a reconstruction volume of $279\times279\times233$ voxels. Furthermore, the block of 30235 \acp{ascan} were used during the reconstruction to speed up the process. The four dimensional case was considered and therefore only the comparison vector from the voxel to the receiver was used. No results besides the profiling report were saved to minimise the influence of hard drive operations during the performance evaluation. The execution time includes all initialisation steps of the reconstruction algorithm as well as generation of directional vectors. The calculation of the threshold orthogonality (in case of the application of the orthogonality threshold method) is also considered by these results. The first reconstruction was started for 14 directional vectors and the last ended at 126. The current implementation allows to generate and arbitrary set of directional vectors starting at 14. Sets with fewer directional vectors than 14 were generated with the platonic solid approach. For the performance evaluation it was necessary to increase the number of directional vectors arbitrarily and the evaluation starts with 14 input vectors.
+The following calculations were performed on two \acp{gpu} (NVidia GeForce 2080 Ti) with a reconstruction volume of $279\times279\times233$ voxels. Furthermore, a block of 30235 \acp{ascan} were used during the reconstruction to speed up the process. The four dimensional case was considered and therefore only the comparison vector from the voxel to the receiver was used. No results besides the profiling report were saved to minimise the influence of hard drive operations during the performance evaluation. The execution time includes all initialisation steps of the reconstruction algorithm as well as generation of directional vectors. The calculation of the threshold orthogonality (in case of the application of the orthogonality threshold method) is also considered by these results. The first reconstruction was started for 14 directional vectors and the last ended at 126. The current implementation allows to generate and arbitrary set of directional vectors starting at 14. Sets with fewer directional vectors than 14 were generated with the platonic solid approach. For the performance evaluation it was necessary to increase the number of directional vectors arbitrarily and the evaluation starts with 14 input vectors.
 
 The following three figures shows the comparison of the computation time of the different techniques for the index identification introduced in section \ref{sec:index_ident}. The results for the sorting algorithm are presented in blue where as the approach with the orthogonality threshold is shown in red.
 
@@ -333,13 +333,13 @@ To quantify the differences in performance between both approaches in Figure \re
 \label{sec:res:eval_diff_tissue_type}
 
 
-The following results all were created with the orthogonality threshold method from section \ref{chap:ortho_threshold} since this method has proven to be much more computationally efficient (see section \ref{performance_index_ident}) as well as to yield an approximation of the results from the angle search method. The volume was restricted to minimise the computation time and Figure \ref{fig:res:reflec_image_olive_xyz} shows the location of the reconstructed volume. For these results 35 directional vectors were created with the arbitrary segmentation approach. Per \ac{tas} one sender and nine receivers were selected. To reduce the computation time only four of the ten available aperture positions were included. The data set from the setup in section \ref{sec:input_data} was used. Data of a simple setup of one small test object was preferred over complex clinical data. As a next step this procedure could be tested on simulated data where a ground truth about reflection properties of different test objects were known. 
+The following results all were created with the orthogonality threshold method from section \ref{chap:ortho_threshold} since this method has proven to be much more computationally efficient (see section \ref{performance_index_ident}) as well as to yield an approximation of the results from the angle search method. The volume was restricted to minimise the computation time and Figure \ref{fig:res:reflec_image_olive_xyz} shows the location of the reconstructed volume. For these results 35 directional vectors were created with the arbitrary segmentation approach. Per \ac{tas} one sender and nine receivers were selected. To reduce the computation time only four of the ten available aperture positions were included. The data set from the setup in section \ref{sec:input_data} was used. The choice of a simple setup of one small test object was preferred over complex clinical data. As a next step this procedure could be tested on simulated data where a ground truth about reflection properties of different test objects were known. 
 
 
 
 In section \ref{fig:res:5th_dim_over_4th_result} the 5D-over-4D-representation of different voxels inside of the 5D data was introduced. This representation will now be used to analyse the characteristics of different tissue types (i.e. materials of the olive and the gelatin). The 5D-over-4D-representations for the three different test voxels is plotted in Figure \ref{fig:res:5D_4D_skin_pulp_compare}. 
 
-In this image we see all the 4D-5D voxel values for the reconstructed data. As a reminder: the 5\textsuperscript{th} dimension comprises directional information for the direction from the voxel to the emitters whereas the 4\textsuperscript{th} dimension contains the information for the voxel to the receiver direction. With that in mind it becomes clear that the directional vectors $30, 31, 32, 33, 34$ and $35$ are pointing out of the imaging aperture and neither any emitter nor any receiver is located in this direction. Therefore, neither of the three 5D-4D-representation does hold any directional information for those directional vectors.
+In this image we see all the 4D-5D voxel values for the reconstructed data. As a reminder: the 5\textsuperscript{th} dimension comprises directional information for the direction from the voxel to the emitters whereas the 4\textsuperscript{th} dimension contains the information for the voxel to the receiver direction. With that in mind it becomes clear that the directional vectors $30, 31, 32, 33, 34$ and $35$ are pointing out of the imaging aperture and neither any emitter nor any receiver is located in this direction. Therefore, neither of the four 5D-4D-representations hold any directional information for those directional vectors.
 
 \begin{figure}[H]
      \centering
@@ -385,17 +385,17 @@ Since these 5D-over-4D results show features which can be used for the determina
 
 
 
-In Figure \ref{fig:res:5D_4D_skin_pulp_compare_stone} we see the 5D-over-4D-representation for the voxel located at the surface of the olive. This plot can be used to make a first assertion about the tissue characteristics of the examined sample. The skin of the olive is assumed to have specular reflectivity properties since it has an relatively even surface. The surface of the gelatin block is also very even an therefore specular properties can be assumed. The 5D-over-4D representation for the surface of the gelatin can be seen in Figure \ref{fig:res:5D_4D_skin_pulp_compare_skin}.
+In Figure \ref{fig:res:5D_4D_skin_pulp_compare_stone} we see the 5D-over-4D-representation for the voxel located at the surface of the olive. This plot can be used to make a first assertion about the tissue characteristics of the examined sample. The skin of the olive is assumed to have specular reflectivity properties since it has an even surface. The surface of the gelatin block is also very even and therefore specular properties can be assumed. The 5D-over-4D representation for the surface of the gelatin can be seen in Figure \ref{fig:res:5D_4D_skin_pulp_compare_skin}.
 
-Figure \ref{fig:res:5D_4D_skin_pulp_compare_insideOlive} and \ref{fig:res:5D_4D_skin_pulp_compare_pulp} show the voxel values for the inside of the olive and the gelatin block. Since these two samples are not located at even surfaces where no specular behaviour would be expected. 
+Figure \ref{fig:res:5D_4D_skin_pulp_compare_insideOlive} and \ref{fig:res:5D_4D_skin_pulp_compare_pulp} show the voxel values for the inside of the olive and the gelatin block. Since these two samples are not located at a surface, no specular behaviour is expected. 
 
 The results for the specular behaviour are shown on the left side of Figure \ref{fig:res:5D_4D_skin_pulp_compare} whereas the plots on the right side are for the diffuse cases.
 
 In this side by side comparison the distribution is noticeable. For the specular cases on the left there are some isolated high amplitude values surrounded by comparably low values. The diffuse cases on the right appear more evenly distributed and unorganised. 
 
-In case of the surface of the gelatin block in Figure \ref{fig:res:5D_4D_skin_pulp_compare_skin} a symmetrical distribution of the values around the leading diagonal of the voxel matrix can be observed. This phenomenon can also be seen in Figure \ref{fig:res:5D_4D_skin_pulp_compare_stone} for the surface of the olive. In that case there are four dark values (e.g. negative amplitude) appear mirrored on the leading diagonal. 
+In case of the surface of the gelatin block in Figure \ref{fig:res:5D_4D_skin_pulp_compare_skin} a symmetrical distribution of the values around the leading diagonal of the voxel matrix can be observed. This phenomenon can also be seen in Figure \ref{fig:res:5D_4D_skin_pulp_compare_stone} for the surface of the olive. In that case there are four dark values (e.g. negative amplitude) which appear to be mirrored on the leading diagonal. 
 
-The results for the diffuse case show a much more stochastic distribution of the values and no symmetrical distribution is recognisable.
+The results for the diffuse case show a much more random distribution of the values and no symmetrical distribution is recognisable.
 
 
 \bigskip
@@ -406,12 +406,13 @@ The features of the 5D-over-4D representation can be used to extract information
 
 
 
+\newpage
 
-\subsection{Angular relation between directional information}
+\section{Angular relation between directional information}
 \label{angular_directional_relation}
 
 
-Until now the directional vectors could not be compared to each other properly. Their index was based on the order of their generation the angular relation between them was missing. A solution for this problem is presented in this section. A so called graticule is introduced. It is a representation of the azimuth and elevation of a spherical coordinate system in a 2 dimensional coordinate system. A simple example is shown in the following Figure:
+Until now the directional vectors could not be compared to each other properly. Their index was based on the order of their generation the angular relation between them was missing. A solution for this problem is presented in this section. A so called graticule is introduced. It is a representation of the azimuth and elevation of a spherical coordinate system in a two dimensional coordinate system. A simple example is shown in the following Figure:
 
 \begin{figure}[H]
     \centering
@@ -420,8 +421,11 @@ Until now the directional vectors could not be compared to each other properly. 
     \label{fig:gadnetz_example}
 \end{figure}
 
-With this representation the directional information of the single directional vectors now can be brought into a representative form so that the angular relationship between the data becomes visible. The 35 directional vectors that are used for the 5D reconstruction are shown in the following image: 
+With this representation the directional information of the single directional vectors now can be brought into a representative form so that the angular relationship between the data becomes visible. The 35 directional vectors that are used for the 5D reconstruction are shown in the Figure \ref{fig:gadnetz_directional_vectors}.
 
+\medskip
+
+To transfer these directional vectors in the graticule the azimuth as well as the elevation is calculated for every direction vector (compare \ref{spend_sphere}). The resulting spherical coordinates are then plotted into the graticule. The values for the azimuth are plotted on the x-axis and the values for the elevation are assigned to the y-axis of the graticule. The result can be seen in Figure \ref{fig:fertig_gradnetz}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.76\textwidth]{Graphics/Results/gradnetz/directional_vectors_for_gradnetz.eps}
@@ -429,11 +433,11 @@ With this representation the directional information of the single directional v
     \label{fig:gadnetz_directional_vectors}
 \end{figure}
 
-To transfer these directional vectors in the graticule the azimuth as well as the elevation is calculated for every direction vector. The resulting spherical coordinates are then plotted into the graticule. The values for the azimuth are plotted on the x-axis and the values for the elevation are assigned to the y-axis of the graticule. The result can be seen in the following image:
+
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.76\textwidth]{Graphics/Results/gradnetz/graticule_35_vectors.eps}
+    \includegraphics[width=0.86\textwidth]{Graphics/Results/gradnetz/graticule_35_vectors.eps}
     \caption{The 35 directional vectors now presented in the graticule. The units are given in degrees. }
     \label{fig:fertig_gradnetz}
 \end{figure}
@@ -442,7 +446,7 @@ From the representation in Figure \ref{fig:fertig_gradnetz} now the directional 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.76\textwidth]{Graphics/Results/gradnetz/positionof_test_voxel_for-gradnetz.png}
+    \includegraphics[width=0.536\textwidth]{Graphics/Results/gradnetz/positionof_test_voxel_for-gradnetz.png}
     \caption{Location of the test voxel $[70\, , \, 82\, , \, 91]$ for the graticule. }
     \label{fig:gadnetz_location_testvoxel}
 \end{figure}
@@ -463,33 +467,35 @@ For the generation of the following results the data set from section \ref{sec:i
          \caption{Graticule with the values of the receiver data for all directional vectors which have their origin at the emitter direction 12.}
          \label{fig:gadnetz_with_value_values}
      \end{subfigure}
-     \hfill
+\hfill
      \begin{subfigure}[b]{0.77\textwidth}
          \centering
          \includegraphics[width=1.09\linewidth]{Graphics/Results/gradnetz/graticule_35_vectors_emitter_12_active.eps}
          \caption{Graticule of the positions of the directional vectors. Vector 12 is marked red because the data of the graticule are used from the emitter direction 12.  }
          \label{fig:gadnetz_with_value_vecotrs}
      \end{subfigure}
-        \caption{Influence of the \ac{sos} correction on the Deviation image.}
+        \caption{Graticule.}
         \label{fig:gadnetz_with_values}
 \end{figure}
 
 
-For these results, the emitter direction was exemplarily chosen as 12. This means, that only the data is considered that was emitted from an emitter \ac{tas} that lay inside of the decision cone of directional vector 12. Furthermore, the receiver values for every direction are regarded. This means, that from all the data in the 5D image only the voxel values are regarded that originate from an emitter in direction 12. These voxel values then are placed into the graticule at the position of their corresponding receiver vectors and two dimensionally interpolated to create the image that we can see in Figure \ref{fig:gadnetz_with_value_values}. The colours of the figure represent the voxel value at that particular direction vector. The absolute value of the voxel values was chosen so that both positive and negative values of the \acp{ascan} are regarded. A bright structure is visible located at the position of the directional voxel 12. The structure results from the interpolation of the different voxel values located at the directional vectors surrounding vector 12. From the concentrated distribution of voxel values around the directional vector 12 the result can be interpreted as the result of a reflection on the surface of the olive with high specular properties. It remains to be examined how this structure changes if the test voxel is placed into other materials with different reflection properties and if the distribution of voxel values really allows for the classification of surface materials.  
+
+
+For these results, the emitter direction was exemplary chosen as 12. This means, that only the data is considered that was emitted from an emitter \ac{tas} that lays inside of the decision cone of directional vector 12. Furthermore, the receiver values for every direction are regarded. These voxel values then are placed into the graticule at the position of their corresponding receiver vectors and two dimensionally interpolated to create the image that we can see in Figure \ref{fig:gadnetz_with_value_values}. The colours of the figure represent the voxel value at that particular direction vector. The absolute value of the voxel values was chosen so that both positive and negative values of the \acp{ascan} are regarded. A bright structure is visible located at the position of the directional voxel 12. The structure results from the interpolation of the different voxel values located at the directional vectors surrounding vector 12. From the concentrated distribution of voxel values around the directional vector 12 the result can be interpreted as the result of a reflection on the surface of the olive with high specular properties. It remains to be examined how this structure changes if the test voxel is placed into other materials with different reflection properties and if the distribution of voxel values really allows for the classification of surface materials.  
 
 
 
 
 
 
-\section{Deviation-imaging \& Max-imaging}
+\section{Deviation imaging \& Maximum imaging}
 \label{chap:devi_image}
 
 Since the final image of the reconstruction contains five dimensions the results are not easy to display in an comprehensible way. One option of displaying all the data of the five dimensions in one 3D volume was shown in Figure \ref{fig:res:summareized_bubble_ortho_image}. In this case the voxel values were averaged along the 4\textsuperscript{th} dimension and the 5\textsuperscript{th} dimension. This procedure results in a 3D image which is similar to the original \ac{usct}-images without any directional information.   
 
 \bigskip
 
-Another option for the representation of the data is the \textbf{deviation image}. It can be calculated from the 5D-over-4D representations and results in a three dimensional image. For each of the 5D-over-4D-images a standard deviation can be calculated. The results from section \ref{sec:res:eval_diff_tissue_type} showed a distinct pattern for tissue types with specular properties compared to tissue types with diffuse behaviour. For the specular kind there were some high peaks symmetrically distributed around the leading diagonal of the image whereas the diffuse tissue showed a more even distribution of value over the whole are of the image. With these observations in mind the standard deviation of a the 5D-over-4D characteristics for a specular scatterer should result in a higher value compared to the even distribution of the 5D-over-4D plot for the diffuse case. In the following Figure the Deviation image is shown next to the summarised image of the data set.
+Another option for the representation of the data is the \textbf{deviation image}. It can be calculated from the 5D-over-4D representations and results in a three dimensional image. For each of the 5D-over-4D-images a standard deviation can be calculated. The results from section \ref{sec:res:eval_diff_tissue_type} showed a distinct pattern for tissue types with specular properties compared to tissue types with diffuse behaviour. For the specular kind there were some high peaks symmetrically distributed around the leading diagonal of the image whereas the diffuse tissue showed a more even distribution of values over the whole are of the image. With these observations in mind the standard deviation of a the 5D-over-4D characteristics for a specular scatterer should result in a higher value compared to the even distribution of the 5D-over-4D plot for the diffuse case. In the following Figure the Deviation image is shown next to the summarised image of the data set.
 
 
 \begin{figure}[H]
@@ -512,7 +518,7 @@ Another option for the representation of the data is the \textbf{deviation image
 \end{figure}
 
 
-Compared to the sum-image on the left the Figure \ref{fig:res:compare_normal_variance_variance} the deviation image shows a much higher contrast. The olive in the middle as well as the surface of the gelatin block in the top left corner are clearly visible. The speckle artefacts were suppressed and the background value is close to zero. 
+Compared to the sum-image on the left, the deviation image in Figure \ref{fig:res:compare_normal_variance_variance} shows a much higher contrast. The olive in the middle as well as the surface of the gelatin block in the top left corner are clearly visible. The speckle artefacts were suppressed and the background value is close to zero. 
 
 
 In section \ref{sec:res:eval_diff_tissue_type} the data for four different test voxels with different reflection properties were shown. The deviation image shows that the voxel values for the voxels that were located on the surface of the olive and on the surface of the gelatin block have a high standard deviation (e.g. high brightness in image). These test voxel that were situated in the gelatin and on the inside of the olive a much lower deviation can be observed. 
@@ -566,7 +572,7 @@ Figure \ref{fig:max_image} shows the maximum image with the same sectioning as t
 
 
 
-
+\newpage
       
 \section{Influence of the speed of sound correction }
 In this section the influence of the \ac{sos} correction on the images shall be shown. For the following results 14 directional vectors were used during the reconstruction. For the first comparison the sum images of the 5D reconstruction can be seen.

@@ -2,29 +2,8 @@
 \chapter{Appendix}
 \label{app:appendix}
 
-
-
-
--> Partitioning of SAFT: Data -> How to put Data on GPU -> What limitations -> Hardware -> COmputation Time
-
-Paper: Find paper which shows requrements on tissue resolution-> What resolution of our vectors in each direction neccessary? -> WHat requirements on the HW then?
-How much Data will come out?
-WHy not feasable? WHat do differently?
-
--> Review of partitioning problem on GPU  -> In z-slices
-Implementation small in MATLAB for verification
-->
--> WHat Limits came up?
--> How to circumvent those limitations?
-
-
-
-
-
-
-
-
-\section{Alternative identification of faces}
+\section{Alternative deduction of orthogonality approach}
+\label{Alternative_herleitung}
 For the analysis of the direction-dependent reflection characteristics each \ac{ascan} has to be assigned to a certain direction of the voxel.
 Depending on which geometry was chosen for the segmentation of the volume there is a set of normals which are orthogonal to each face of the geometry. To assign a face to each \ac{ascan} it makes sense to calculate the angle $\angle (\overrightarrow{a},\overrightarrow{b})$ between the direction vector and each normal.
 
@@ -118,6 +97,7 @@ i_0 = \underset{i \in 0..N}{\mathrm{argmax}} \left (    \overrightarrow{v} \cdot
 
 
 \section{Spherical coordinate system}
+\label{spend_sphere}
 Spherical coordinates are used to create test vectors for evaluating the algorithms. Depending on the available computation power and memory it is possible to create as many normals as possible to cover as many possible directions as possible.
 
 \bigskip
